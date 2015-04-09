@@ -113,6 +113,7 @@
         options = @{NSPersistentStoreFileProtectionKey: NSFileProtectionComplete,
                     NSMigratePersistentStoresAutomaticallyOption:@YES,
                     NSInferMappingModelAutomaticallyOption:@YES,
+                    NSSQLitePragmasOption: @{@"journal_mode": @"DELETE"},
                     EncryptedStoreDatabaseLocation:[self sourceStoreURL],
                     EncryptedStorePassphraseKey:@"Some Random Key String"};
     }
@@ -120,6 +121,7 @@
     {
         options = @{NSPersistentStoreFileProtectionKey: NSFileProtectionComplete,
                     NSMigratePersistentStoresAutomaticallyOption:@YES,
+                    NSSQLitePragmasOption: @{@"journal_mode": @"DELETE"},
                     NSInferMappingModelAutomaticallyOption:@YES,
                     EncryptedStoreDatabaseLocation:[self sourceStoreURL]};
     }
@@ -175,8 +177,8 @@
 
 - (NSString *)sourceStoreType
 {
-    return NSSQLiteStoreType;
-    // return EncryptedStoreType;
+    // return NSSQLiteStoreType;
+    return EncryptedStoreType;
 }
 
 
@@ -304,6 +306,13 @@
             }
         }
     }
+}
+
+
+
+- (void)migrationManager:(CoreDataMigrationController *)migrationManager migrationProgress:(float)migrationProgress
+{
+    DDLogDebug(@"Migration Progress: %f", migrationProgress);
 }
 
 

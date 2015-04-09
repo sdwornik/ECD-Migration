@@ -1,3 +1,11 @@
+//
+//  CourseInformation.h
+//  ECD-Migration
+//
+//  Created by Jasper Chan on 2015-04-09.
+//  Copyright (c) 2015 .. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
@@ -5,12 +13,12 @@
 
 @interface CourseInformation : NSManagedObject
 
-@property (nonatomic, retain) NSString *courseCode;
-@property (nonatomic, retain) NSNumber *courseId;
-@property (nonatomic, retain) NSString *courseTitle;
-@property (nonatomic, retain) NSDate *creationdate;
-@property (nonatomic, retain) NSNumber *isAvailable;
-@property (nonatomic, retain) NSDate *lastmodifieddate;
+@property (nonatomic, retain) NSString * courseCode;
+@property (nonatomic, retain) NSNumber * courseId;
+@property (nonatomic, retain) NSString * courseTitle;
+@property (nonatomic, retain) NSDate * creationdate;
+@property (nonatomic, retain) NSNumber * isAvailable;
+@property (nonatomic, retain) NSDate * lastmodifieddate;
 @property (nonatomic, retain) NSSet *students;
 @property (nonatomic, retain) ProfessorInformation *teachingProfessor;
 @end

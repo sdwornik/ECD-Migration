@@ -1,3 +1,11 @@
+//
+//  StudentInformation.m
+//  ECD-Migration
+//
+//  Created by Jasper Chan on 2015-04-09.
+//  Copyright (c) 2015 .. All rights reserved.
+//
+
 #import "StudentInformation.h"
 #import "CourseInformation.h"
 

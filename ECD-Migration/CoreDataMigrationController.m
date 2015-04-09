@@ -181,4 +181,27 @@
 
 
 
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if ([keyPath isEqualToString:@"migrationProgress"])
+    {
+        if ([self.delegate respondsToSelector:@selector(migrationManager:migrationProgress:)])
+        {
+            [self.delegate migrationManager:self migrationProgress:[(NSMigrationManager *)object migrationProgress]];
+        }
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
+}
+
+
+
 @end
