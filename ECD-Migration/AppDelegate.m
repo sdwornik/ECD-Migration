@@ -76,7 +76,7 @@
 #pragma mark - Core Data stack
 - (NSString *)applicationDocumentsDirectory
 {
-    // The directory the application uses to store the Core Data store file. This code uses a directory named "com.SceneDoc.ECD_Migration" in the application's documents directory.
+    // The directory the application uses to store the Core Data store file. This code uses a directory named "com.SDoc.ECD_Migration" in the application's documents directory.
     NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 
     return paths[0];
