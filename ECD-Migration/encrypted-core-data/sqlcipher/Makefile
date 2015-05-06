@@ -42,19 +42,19 @@ TCC += -DNDEBUG
 
 # Compiler options needed for programs that use the TCL library.
 #
-TCC += 
+TCC += -I/System/Library/Frameworks/Tcl.framework/Versions/8.5/Headers
 
 # The library that programs using TCL must link against.
 #
-LIBTCL = 
+LIBTCL = -F/System/Library/Frameworks -framework Tcl
 
 # Compiler options needed for programs that use the readline() library.
 #
-READLINE_FLAGS = -DHAVE_READLINE=0 
+READLINE_FLAGS = -DHAVE_READLINE=1 -I/usr/include/readline
 
 # The library that programs using readline() must link against.
 #
-LIBREADLINE = 
+LIBREADLINE = -lreadline -lncurses 
 
 # Should the database engine be compiled threadsafe
 #
@@ -100,7 +100,7 @@ TEXE =
 # variable is "1", the TCL extension library (libtclsqlite3.so) is built
 # and installed.
 #
-HAVE_TCL = 
+HAVE_TCL = 1
 
 # This is the command to use for tclsh - normally just "tclsh", but we may
 # know the specific version we want to use
@@ -528,7 +528,7 @@ libsqlcipher.la:	$(LIBOBJ)
 
 libtclsqlite3.la:	tclsqlite.lo libsqlcipher.la
 	$(LTLINK) -o $@ tclsqlite.lo \
-		libsqlcipher.la  $(TLIBS) \
+		libsqlcipher.la -L/System/Library/Frameworks/Tcl.framework/Versions/8.5 -ltclstub8.5 $(TLIBS) \
 		-rpath "$(TCLLIBDIR)" \
 		-version-info "8:6:8" \
 		-avoid-version
