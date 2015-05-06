@@ -135,6 +135,12 @@ static NSString * const EncryptedStoreMetadataTableName = @"meta";
     [persistentCoordinator addPersistentStoreWithType:EncryptedStoreType configuration:nil URL:databaseURL
         options:options error:error];
 
+    if (*error)
+    {
+        NSLog(@"Unable to add persistent store.");
+        NSLog(@"Error: %@\n%@\n%@", *error, [*error userInfo], [*error localizedDescription]);
+    }
+    
     return persistentCoordinator;
 }
 
@@ -678,8 +684,7 @@ static NSString * const EncryptedStoreMetadataTableName = @"meta";
                 if ([[options objectForKey:NSMigratePersistentStoresAutomaticallyOption] boolValue] &&
                     [[options objectForKey:NSInferMappingModelAutomaticallyOption] boolValue]) {
                     NSMutableArray *bundles = [NSMutableArray array];
-                    [bundles addObjectsFromArray:[NSBundle allBundles]];
-                    [bundles addObjectsFromArray:[NSBundle allFrameworks]];
+                    [bundles addObject:[NSBundle mainBundle]];
                     NSManagedObjectModel *oldModel = [NSManagedObjectModel
                                                       mergedModelFromBundles:bundles
                                                       forStoreMetadata:metadata];
@@ -904,7 +909,7 @@ static void dbsqliteRegExp(sqlite3_context *context, int argc, const char **argv
 #pragma mark - migration helpers
 
 - (BOOL)migrateFromModel:(NSManagedObjectModel *)fromModel toModel:(NSManagedObjectModel *)toModel error:(NSError **)error {
-    BOOL __block succuess = YES;
+    BOOL __block success = YES;
     
     // generate mapping model
     NSMappingModel *mappingModel = [NSMappingModel
@@ -933,27 +938,25 @@ static void dbsqliteRegExp(sqlite3_context *context, int argc, const char **argv
         
         // add a new entity from final snapshot
         if (type == NSAddEntityMappingType) {
-            succuess = [self createTableForEntity:destinationEntity error:error];
+            success &= [self createTableForEntity:destinationEntity error:error];
         }
         
         // drop table for deleted entity
         else if (type == NSRemoveEntityMappingType) {
-            succuess = [self dropTableForEntity:sourceEntity];
+            success &= [self dropTableForEntity:sourceEntity];
         }
         
         // change an entity
         else if (type == NSTransformEntityMappingType) {
-            succuess = [self
+            success &= [self
                         alterTableForSourceEntity:sourceEntity
                         destinationEntity:destinationEntity
                         withMapping:entityMapping
                         error:error];
         }
-        
-        if (!succuess) { *stop = YES; }
     }];
     
-    return succuess;
+    return success;
 }
 
 - (BOOL)initializeDatabase:(NSError**)error {
@@ -1201,7 +1204,8 @@ static void dbsqliteRegExp(sqlite3_context *context, int argc, const char **argv
         }
     }];
     [[mapping relationshipMappings] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSRelationshipDescription * relationship = [sourceEntity relationshipsByName][[obj name]];
+        NSRelationshipDescription *destinationRelationship = [destinationEntity relationshipsByName][[obj name]];
+        NSRelationshipDescription * relationship = [sourceEntity relationshipsByName][([destinationRelationship renamingIdentifier] ? [destinationRelationship renamingIdentifier] : [obj name])];
         if (![relationship isToMany])
         {
             NSExpression *expression = [obj valueExpression];
@@ -1494,19 +1498,19 @@ static void dbsqliteRegExp(sqlite3_context *context, int argc, const char **argv
         sqlite3_bind_int64(statement, 1, [number unsignedLongLongValue]);
         
         // bind properties
-        NSUInteger __block columnIndex;
+        int __block columnIndex;
         [keys enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             // SQL indexes start at 1
-            columnIndex = idx + 1;
+            columnIndex = (int)idx + 1;
             NSPropertyDescription *property = [properties objectForKey:obj];
             // Add 1 to column index as the first bind is the objectID
-            [self bindProperty:property withValue:[object valueForKey:obj] forKey:obj toStatement:statement atIndex:(int)columnIndex + 1];
+            [self bindProperty:property withValue:[object valueForKey:obj] forKey:obj toStatement:statement atIndex:columnIndex + 1];
         }];
         
         if (containsOrder) {
             columnIndex++;
             for (NSDictionary * dict in orderValues) {
-                sqlite3_bind_int(statement, columnIndex + 1, [[dict objectForKey:@"v"] integerValue]);
+                sqlite3_bind_int(statement, columnIndex + 1, [[dict objectForKey:@"v"] intValue]);
                 columnIndex++;
             }
         }
@@ -1612,7 +1616,7 @@ static void dbsqliteRegExp(sqlite3_context *context, int argc, const char **argv
                     }
                     
                     [columns addObject:[NSString stringWithFormat:@"%@=?", column]];
-                    [columns addObject:[NSString stringWithFormat:@"%@=%d", orderColumn, [orderSequence integerValue]]];
+                    [columns addObject:[NSString stringWithFormat:@"%@=%ld", orderColumn, (long)[orderSequence integerValue]]];
                     
                     [keys addObject:key];
                 }
@@ -2006,10 +2010,18 @@ static void dbsqliteRegExp(sqlite3_context *context, int argc, const char **argv
 }
 
 - (NSString *) getJoinClause: (NSFetchRequest *) fetchRequest withPredicate:(NSPredicate*)predicate initial:(BOOL)initial{
+    return [self getJoinClause:fetchRequest withPredicate:predicate initial:initial withStatements:nil];
+}
     
+- (NSString *) getJoinClause: (NSFetchRequest *) fetchRequest withPredicate:(NSPredicate*)predicate initial:(BOOL)initial withStatements: (NSMutableSet *) previousJoinStatementsSet {
     NSEntityDescription *entity = [fetchRequest entity];
     // We use a set to only add one join table per relationship.
-    NSMutableSet *joinStatementsSet = [NSMutableSet set];
+    NSMutableSet *joinStatementsSet;
+    if (previousJoinStatementsSet != nil) {
+        joinStatementsSet = previousJoinStatementsSet;
+    } else {
+        joinStatementsSet = [NSMutableSet set];
+    }
     // We use an array to ensure the order of join statements
     NSMutableArray *joinStatementsArray = [NSMutableArray array];
     
@@ -2029,7 +2041,7 @@ static void dbsqliteRegExp(sqlite3_context *context, int argc, const char **argv
     if ([predicate isKindOfClass:[NSCompoundPredicate class]]) {
         NSCompoundPredicate * compoundPred = (NSCompoundPredicate*) predicate;
         for (id subpred in [compoundPred subpredicates]){
-            [joinStatementsArray addObject:[self getJoinClause:fetchRequest withPredicate:subpred initial:NO]];
+            [joinStatementsArray addObject:[self getJoinClause:fetchRequest withPredicate:subpred initial:NO withStatements: joinStatementsSet]];
         }
     }
     else if ([predicate isKindOfClass:[NSComparisonPredicate class]]){
@@ -2653,12 +2665,12 @@ static void dbsqliteRegExp(sqlite3_context *context, int argc, const char **argv
         // string
         if ([obj isKindOfClass:[NSString class]]) {
             const char* str = [obj UTF8String];
-			int len = strlen(str);
+			int len = (int)strlen(str);
 
 			if (str[0] == '\'' && str[len-1] == '\'')
-				sqlite3_bind_text(statement, (idx + 1), str+1, len-2, SQLITE_TRANSIENT);
+				sqlite3_bind_text(statement, (int)(idx + 1), str+1, len-2, SQLITE_TRANSIENT);
 			else
-				sqlite3_bind_text(statement, (idx + 1), str, len, SQLITE_TRANSIENT);
+				sqlite3_bind_text(statement, (int)(idx + 1), str, len, SQLITE_TRANSIENT);
         }
 
         // number
