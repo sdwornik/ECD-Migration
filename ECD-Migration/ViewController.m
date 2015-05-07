@@ -92,8 +92,8 @@
             @try
             {
                 // Comment out initializeDefaultData and verifyInitialData when you are not initializing the Core Data with a version 1 data model.
-                [self initializeDefaultData];
-                [self verifyInitialData];
+                // [self initializeDefaultData];
+                // [self verifyInitialData];
 
 
                 self.encryptCoreDataSwitch.enabled = NO;
@@ -138,16 +138,12 @@
     self.startMigrationBtn.enabled = NO;
 
     [[CoreDataController sharedInstance] managedObjectContext];
-    if ([[CoreDataController sharedInstance] isMigrationNeeded])
-    {
-        [[CoreDataController sharedInstance] migrate:nil];
-    }
 
     // Comment this out when not checking your inital model data is correct
     // [self verifyInitialData];
 
     // Comment this out when not migrating from initial version to version 2
-    // [self testCaseInitialToVersion2];
+    [self testCaseInitialToVersion2];
 
     // Comment this out when not migrating from initial version to version 3
     // [self testCaseInitialToVersion3];
@@ -160,8 +156,8 @@
 // Function name: initializeDefaultData
 // Dependency: Must be used with the initial data model ONLY.
 // Purpose: Insert some initial data in preparation for migration tests.
-- (void)initializeDefaultData
-{
+/*- (void)initializeDefaultData
+   {
     DDLogInfo(@"%@:%@ - Started", THIS_FILE, THIS_METHOD);
 
     NSDecimalNumberHandler *roundCurrency = [NSDecimalNumberHandler
@@ -268,7 +264,7 @@
     }
 
     DDLogInfo(@"%@:%@ - Ended", THIS_FILE, THIS_METHOD);
-}
+   }*/
 
 
 
@@ -276,8 +272,8 @@
 // Function Name: verifyInitialData
 // Dependency: Must be used with the initial data model ONLY.
 // Purpose: Verify initial data is correct.
-- (void)verifyInitialData
-{
+/*- (void)verifyInitialData
+   {
     DDLogInfo(@"%@:%@ - Started", THIS_FILE, THIS_METHOD);
     NSDecimalNumberHandler *roundCurrency = [NSDecimalNumberHandler
                                              decimalNumberHandlerWithRoundingMode:NSRoundPlain
@@ -663,7 +659,7 @@
     }
 
     DDLogInfo(@"%@:%@ - Ended", THIS_FILE, THIS_METHOD);
-}
+   }*/
 
 
 
@@ -671,8 +667,8 @@
 // Function Name: testCaseInitialToVersion2
 // Dependency: Must be run with only data model version 2
 // Purpose: Verify data is complete and correct after migrating from initial data model to version 2
-/*- (void)testCaseInitialToVersion2
-   {
+- (void)testCaseInitialToVersion2
+{
     DDLogInfo(@"%@:%@ - Started", THIS_FILE, THIS_METHOD);
     NSDecimalNumberHandler *roundCurrency = [NSDecimalNumberHandler
                                              decimalNumberHandlerWithRoundingMode:NSRoundPlain
@@ -855,9 +851,14 @@
             DDLogError(@"%@:%@ firstStudent tutitionFee is %f, expected 10000.23", THIS_FILE, THIS_METHOD, firstStudent.annualTutitionFee.doubleValue);
         }
 
-        if (firstStudent.grade.integerValue != 83)
+        if (firstStudent.averageGrade.integerValue != 83)
         {
-            DDLogError(@"%@:%@ firstStudent avgGrade is %d, expected 83", THIS_FILE, THIS_METHOD, firstStudent.grade.integerValue);
+            DDLogError(@"%@:%@ firstStudent averageGrade is %d, expected 83", THIS_FILE, THIS_METHOD, firstStudent.averageGrade.integerValue);
+        }
+
+        if (firstStudent.grade.integerValue != 1)
+        {
+            DDLogError(@"%@:%@ firstStudent grade is %d, expected 1", THIS_FILE, THIS_METHOD, firstStudent.grade.integerValue);
         }
 
         if (firstStudent.onProbation.integerValue != 0)
@@ -972,9 +973,14 @@
             DDLogError(@"%@:%@ secondStudent tutitionFee is %f, expected 21000.23", THIS_FILE, THIS_METHOD, secondStudent.annualTutitionFee.doubleValue);
         }
 
-        if (secondStudent.grade.integerValue != 53)
+        if (secondStudent.averageGrade.integerValue != 53)
         {
-            DDLogError(@"%@:%@ secondStudent avgGrade is %d, expected 53", THIS_FILE, THIS_METHOD, secondStudent.grade.integerValue);
+            DDLogError(@"%@:%@ secondStudent avgGrade is %d, expected 53", THIS_FILE, THIS_METHOD, secondStudent.averageGrade.integerValue);
+        }
+
+        if (secondStudent.grade.integerValue != 1)
+        {
+            DDLogError(@"%@:%@ secondStudent grade is %d, expected 1", THIS_FILE, THIS_METHOD, secondStudent.grade.integerValue);
         }
 
         if (secondStudent.onProbation.integerValue != 1)
@@ -1058,7 +1064,7 @@
     }
 
     DDLogInfo(@"%@:%@ - Ended", THIS_FILE, THIS_METHOD);
-   }*/
+}
 
 
 
@@ -1068,83 +1074,250 @@
 // Purpose: Verify data is complete and correct after progressively migrating from initial data model to version 3
 /*- (void)testCaseInitialToVersion3
    {
+    DDLogInfo(@"%@:%@ - Started", THIS_FILE, THIS_METHOD);
+    NSDecimalNumberHandler *roundCurrency = [NSDecimalNumberHandler
+                                             decimalNumberHandlerWithRoundingMode:NSRoundPlain
+                                                                            scale:2
+                                                                 raiseOnExactness:NO
+                                                                  raiseOnOverflow:NO
+                                                                 raiseOnUnderflow:NO
+                                                              raiseOnDivideByZero:YES];
+
+    NSDateComponents *comps = [[NSDateComponents alloc] init];
+    [comps setDay:10];
+    [comps setMonth:10];
+    [comps setYear:2010];
+    [comps setHour:12];
+    [comps setMinute:30];
+    [comps setSecond:10];
+
+    NSDate *date = [[NSCalendar currentCalendar] dateFromComponents:comps];
+
+    NSManagedObjectContext *context = [[CoreDataController sharedInstance] managedObjectContext];
+    NSError *error;
+
+    NSFetchRequest *fetchFirstProfessor = [[NSFetchRequest alloc] initWithEntityName:@"ProfessorInformation"];
+    NSArray *firstProfessorResult = [context executeFetchRequest:fetchFirstProfessor error:&error];
+    if (error)
     {
-        DDLogInfo(@"%@:%@ - Started", THIS_FILE, THIS_METHOD);
-        NSDecimalNumberHandler *roundCurrency = [NSDecimalNumberHandler
-                                                 decimalNumberHandlerWithRoundingMode:NSRoundPlain
-                                                                                scale:2
-                                                                     raiseOnExactness:NO
-                                                                      raiseOnOverflow:NO
-                                                                     raiseOnUnderflow:NO
-                                                                  raiseOnDivideByZero:YES];
-
-        NSDateComponents *comps = [[NSDateComponents alloc] init];
-        [comps setDay:10];
-        [comps setMonth:10];
-        [comps setYear:2010];
-        [comps setHour:12];
-        [comps setMinute:30];
-        [comps setSecond:10];
-
-        NSDate *date = [[NSCalendar currentCalendar] dateFromComponents:comps];
-
-        NSManagedObjectContext *context = [[CoreDataController sharedInstance] managedObjectContext];
-        NSError *error;
-
-        NSFetchRequest *fetchFirstProfessor = [[NSFetchRequest alloc] initWithEntityName:@"ProfessorInformation"];
-        NSArray *firstProfessorResult = [context executeFetchRequest:fetchFirstProfessor error:&error];
-        if (error)
+        DDLogError(@"%@:%@ - Failed to fetch professor Harry Potter: %@", THIS_FILE, THIS_METHOD, [error localizedDescription]);
+    }
+    else
+    {
+        ProfessorInformation *harryPotter = [firstProfessorResult firstObject];
+        if (![harryPotter.firstName isEqualToString:@"Harry"])
         {
-            DDLogError(@"%@:%@ - Failed to fetch professor Harry Potter: %@", THIS_FILE, THIS_METHOD, [error localizedDescription]);
+            DDLogError(@"%@:%@ firstName of professor is %@; expected Harry", THIS_FILE, THIS_METHOD, harryPotter.firstName);
+        }
+
+        if (![harryPotter.lastName isEqualToString:@"Potter"])
+        {
+            DDLogError(@"%@:%@ lastName of professor is %@; expected Potter", THIS_FILE, THIS_METHOD, harryPotter.lastName);
+        }
+
+        if (harryPotter.age.integerValue != 31)
+        {
+            DDLogError(@"%@:%@ age of professor is %d; expected 31", THIS_FILE, THIS_METHOD, harryPotter.age.integerValue);
+        }
+
+        if (harryPotter.isAvailable.integerValue != 1)
+        {
+            DDLogError(@"%@:%@ isAvailable of professor is %@, expected TRUE", THIS_FILE, THIS_METHOD, (harryPotter.isAvailable.integerValue ? @"TRUE" : @"FALSE"));
+        }
+
+        if ([[harryPotter.salary decimalNumberByRoundingAccordingToBehavior:roundCurrency] compare:[[NSDecimalNumber decimalNumberWithString:@"80000.00"] decimalNumberByRoundingAccordingToBehavior:roundCurrency]] != NSOrderedSame)
+        {
+            DDLogError(@"%@:%@ annualSalary of professor is %f, expected 80000.00", THIS_FILE, THIS_METHOD, harryPotter.salary.doubleValue);
+        }
+
+        if (![harryPotter.creationDate isEqualToDate:date])
+        {
+            DDLogError(@"%@:%@ creationDate of professor is %@, expected %@", THIS_FILE, THIS_METHOD, harryPotter.creationDate, date);
+        }
+
+        if (![harryPotter.lastModifiedDate isEqualToDate:date])
+        {
+            DDLogError(@"%@:%@ lastModifiedDate of professor is %@, expected %@", THIS_FILE, THIS_METHOD, harryPotter.lastModifiedDate, date);
+        }
+
+        if (harryPotter.teachableCourses.count != 2)
+        {
+            DDLogError(@"%@:%@ - TeachableCourses relationship is lost", THIS_FILE, THIS_METHOD);
         }
         else
         {
-            ProfessorInformation *harryPotter = [firstProfessorResult firstObject];
-            if (![harryPotter.firstName isEqualToString:@"Harry"])
+            NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"courseId" ascending:YES selector:nil];
+            NSArray *sortedTeachables = [harryPotter.teachableCourses sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
+            CourseInformation *firstCourse = [sortedTeachables objectAtIndex:0];
+
+            if (firstCourse.courseId.integerValue != 1)
             {
-                DDLogError(@"%@:%@ firstName of professor is %@; expected Harry", THIS_FILE, THIS_METHOD, harryPotter.firstName);
+                DDLogError(@"%@:%@ courseId is %d, expected 1", THIS_FILE, THIS_METHOD, firstCourse.courseId.integerValue);
             }
 
-            if (![harryPotter.lastName isEqualToString:@"Potter"])
+            if (![firstCourse.courseSerialCode isEqualToString:@"HP123"])
             {
-                DDLogError(@"%@:%@ lastName of professor is %@; expected Potter", THIS_FILE, THIS_METHOD, harryPotter.lastName);
+                DDLogError(@"%@:%@ courseSerialCode is %@, expected HP123", THIS_FILE, THIS_METHOD, firstCourse.courseSerialCode);
             }
 
-            if (harryPotter.age.integerValue != 31)
+            if (![firstCourse.courseName isEqualToString:@"How to survive the unblockable curse"])
             {
-                DDLogError(@"%@:%@ age of professor is %d; expected 31", THIS_FILE, THIS_METHOD, harryPotter.age.integerValue);
+                DDLogError(@"%@:%@ courseName is %@, expected How to survive the unblockable curse", THIS_FILE, THIS_METHOD, firstCourse.courseName);
             }
 
-            if (harryPotter.isAvailable.integerValue != 1)
+            if (firstCourse.courseIsAvailable.integerValue != 1)
             {
-                DDLogError(@"%@:%@ isAvailable of professor is %@, expected TRUE", THIS_FILE, THIS_METHOD, (harryPotter.isAvailable.integerValue ? @"TRUE" : @"FALSE"));
+                DDLogError(@"%@:%@ courseIsAvailable is %@, expected TRUE", THIS_FILE, THIS_METHOD, (firstCourse.courseIsAvailable.integerValue ? @"TRUE" : @"FALSE"));
             }
 
-            if ([[harryPotter.salary decimalNumberByRoundingAccordingToBehavior:roundCurrency] compare:[[NSDecimalNumber decimalNumberWithString:@"80000.00"] decimalNumberByRoundingAccordingToBehavior:roundCurrency]] != NSOrderedSame)
+            if (firstCourse.enrolledStudents.count != 2)
             {
-                DDLogError(@"%@:%@ annualSalary of professor is %f, expected 80000.00", THIS_FILE, THIS_METHOD, harryPotter.salary.doubleValue);
+                DDLogError(@"%@:%@ firstCourse enrolledStudents count is %d, expected 2", THIS_FILE, THIS_METHOD, firstCourse.enrolledStudents.count);
             }
 
-            if (![harryPotter.creationDate isEqualToDate:date])
+            if (![firstCourse.creationDate isEqualToDate:date])
             {
-                DDLogError(@"%@:%@ creationDate of professor is %@, expected %@", THIS_FILE, THIS_METHOD, harryPotter.creationDate, date);
+                DDLogError(@"%@:%@ firstCourse creationDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstCourse.creationDate, date);
             }
 
-            if (![harryPotter.lastModifiedDate isEqualToDate:date])
+            if (![firstCourse.lastModifiedDate isEqualToDate:date])
             {
-                DDLogError(@"%@:%@ lastModifiedDate of professor is %@, expected %@", THIS_FILE, THIS_METHOD, harryPotter.lastModifiedDate, date);
+                DDLogError(@"%@:%@ firstCourse lastModifiedDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstCourse.lastModifiedDate, date);
             }
 
-            if (harryPotter.teachableCourses.count != 2)
+            if ((firstCourse.courseCapacity != nil) || (firstCourse.courseCapacity.integerValue != 0))
             {
-                DDLogError(@"%@:%@ - TeachableCourses relationship is lost", THIS_FILE, THIS_METHOD);
+                DDLogError(@"%@:%@ firstCourse courseCapacity is %d, expected 0", THIS_FILE, THIS_METHOD, firstCourse.courseCapacity.integerValue);
             }
-            else
-            {
-                NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"courseId" ascending:YES selector:nil];
-                NSArray *sortedTeachables = [harryPotter.teachableCourses sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
-                CourseInformation *firstCourse = [sortedTeachables objectAtIndex:0];
 
+            CourseInformation *secondCourse = [sortedTeachables objectAtIndex:1];
+
+            if (secondCourse.courseId.integerValue != 2)
+            {
+                DDLogError(@"%@:%@ courseId is %d, expected 2", THIS_FILE, THIS_METHOD, secondCourse.courseId.integerValue);
+            }
+
+            if (![secondCourse.courseSerialCode isEqualToString:@"HP234"])
+            {
+                DDLogError(@"%@:%@ courseSerialCode is %@, expected HP234", THIS_FILE, THIS_METHOD, secondCourse.courseSerialCode);
+            }
+
+            if (![secondCourse.courseName isEqualToString:@"How to ride a hypogriff"])
+            {
+                DDLogError(@"%@:%@ courseName is %@, expected How to ride a hypogriff", THIS_FILE, THIS_METHOD, secondCourse.courseName);
+            }
+
+            if (secondCourse.courseIsAvailable.integerValue != 0)
+            {
+                DDLogError(@"%@:%@ courseIsAvailable is %@, expected FALSE", THIS_FILE, THIS_METHOD, (secondCourse.courseIsAvailable.integerValue ? @"TRUE" : @"FALSE"));
+            }
+
+            if (![secondCourse.creationDate isEqualToDate:date])
+            {
+                DDLogError(@"%@:%@ secondCourse creationDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstCourse.creationDate, date);
+            }
+
+            if (![secondCourse.lastModifiedDate isEqualToDate:date])
+            {
+                DDLogError(@"%@:%@ secondCourse lastModifiedDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstCourse.lastModifiedDate, date);
+            }
+
+            if (secondCourse.enrolledStudents.count != 0)
+            {
+                DDLogError(@"%@:%@ secondCourse enrolledStudents count is %d, expected 0", THIS_FILE, THIS_METHOD, secondCourse.enrolledStudents.count);
+            }
+
+            if ((secondCourse.courseCapacity != nil) || (firstCourse.courseCapacity.integerValue != 0))
+            {
+                DDLogError(@"%@:%@ secondCourse courseCapacity is %d, expected 0", THIS_FILE, THIS_METHOD, firstCourse.courseCapacity.integerValue);
+            }
+        }
+    }
+
+    NSFetchRequest *fetchFirstStudent = [[NSFetchRequest alloc] initWithEntityName:@"StudentInformation"];
+    NSPredicate *firstStudentPredicate = [NSPredicate predicateWithFormat:@"firstname = 'Good Billy'"];
+    [fetchFirstStudent setPredicate:firstStudentPredicate];
+    NSArray *firstStudentResult = [context executeFetchRequest:fetchFirstStudent error:&error];
+    if (error)
+    {
+        DDLogError(@"%@:%@ - Failed to fetch student Good Billy", THIS_FILE, THIS_METHOD);
+    }
+    else
+    {
+        StudentInformation *firstStudent = [firstStudentResult firstObject];
+
+        if (![firstStudent.firstName isEqualToString:@"Good Billy"])
+        {
+            DDLogError(@"%@:%@ firstStudent firstname is %@, expected Good Billy", THIS_FILE, THIS_METHOD, firstStudent.firstName);
+        }
+
+        if (![firstStudent.lastName isEqualToString:@"Jean"])
+        {
+            DDLogError(@"%@:%@ firstStudent lastname is %@, expected Jean", THIS_FILE, THIS_METHOD, firstStudent.lastName);
+        }
+
+        if (firstStudent.age.longLongValue != 18)
+        {
+            DDLogError(@"%@:%@ firstStudent currentAge is %d, expected 18", THIS_FILE, THIS_METHOD, firstStudent.age.integerValue);
+        }
+
+        if ([[firstStudent.annualTutitionFee decimalNumberByRoundingAccordingToBehavior:roundCurrency] compare:[[[NSDecimalNumber alloc] initWithFloat:10000.23f] decimalNumberByRoundingAccordingToBehavior:roundCurrency]] != NSOrderedSame)
+        {
+            DDLogError(@"%@:%@ firstStudent tutitionFee is %f, expected 10000.23", THIS_FILE, THIS_METHOD, firstStudent.annualTutitionFee.doubleValue);
+        }
+
+        if (firstStudent.averageGrade.integerValue != 83)
+        {
+            DDLogError(@"%@:%@ firstStudent averageGrade is %d, expected 83", THIS_FILE, THIS_METHOD, firstStudent.averageGrade.integerValue);
+        }
+
+        if (firstStudent.grade.integerValue != 1)
+        {
+            DDLogError(@"%@:%@ firstStudent grade is %d, expected 1", THIS_FILE, THIS_METHOD, firstStudent.grade.integerValue);
+        }
+
+        if (firstStudent.onProbation.integerValue != 0)
+        {
+            DDLogError(@"%@:%@ firstStudent isOnProbation is %@, expected FALSE", THIS_FILE, THIS_METHOD, (firstStudent.onProbation.integerValue ? @"TRUE" : @"FALSE"));
+        }
+
+        if (firstStudent.classifiedData)
+        {
+            NSMutableDictionary *classifiedDataDict = [NSMutableDictionary dictionaryWithDictionary:
+                                                       [NSPropertyListSerialization propertyListWithData:firstStudent.classifiedData
+                                                                                                 options:0
+                                                                                                  format:nil
+                                                                                                   error:&error]];
+            if (![[classifiedDataDict objectForKey:k_EyeColour] isEqualToString:@"Blue"])
+            {
+                DDLogError(@"%@:%@ firstStudent classifiedData Eye Color is %@, expected Blue", THIS_FILE, THIS_METHOD, [classifiedDataDict objectForKey:k_EyeColour]);
+            }
+
+            if (![[classifiedDataDict objectForKey:k_Height] isEqualToString:@"153 cm"])
+            {
+                DDLogError(@"%@:%@ firstStudent classifiedData Height is %@, expected 153 cm", THIS_FILE, THIS_METHOD, [classifiedDataDict objectForKey:k_Height]);
+            }
+        }
+
+        if (![firstStudent.creationDate isEqualToDate:date])
+        {
+            DDLogError(@"%@:%@ firstStudent creationDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstStudent.creationDate, date);
+        }
+
+        if (![firstStudent.lastModifiedDate isEqualToDate:date])
+        {
+            DDLogError(@"%@:%@ firstStudent lastModifiedDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstStudent.lastModifiedDate, date);
+        }
+
+        if (firstStudent.selectedCourses.count != 1)
+        {
+            DDLogError(@"%@:%@ - firstStudent's selectedCourses count is %d, expected 1", THIS_FILE, THIS_METHOD, firstStudent.selectedCourses.count);
+        }
+        else
+        {
+            NSArray *firstStudentCoursesArray = [firstStudent.selectedCourses allObjects];
+            for (CourseInformation *firstCourse in firstStudentCoursesArray)
+            {
                 if (firstCourse.courseId.integerValue != 1)
                 {
                     DDLogError(@"%@:%@ courseId is %d, expected 1", THIS_FILE, THIS_METHOD, firstCourse.courseId.integerValue);
@@ -1184,297 +1357,138 @@
                 {
                     DDLogError(@"%@:%@ firstCourse courseCapacity is %d, expected 0", THIS_FILE, THIS_METHOD, firstCourse.courseCapacity.integerValue);
                 }
-
-                CourseInformation *secondCourse = [sortedTeachables objectAtIndex:1];
-
-                if (secondCourse.courseId.integerValue != 2)
-                {
-                    DDLogError(@"%@:%@ courseId is %d, expected 2", THIS_FILE, THIS_METHOD, secondCourse.courseId.integerValue);
-                }
-
-                if (![secondCourse.courseSerialCode isEqualToString:@"HP234"])
-                {
-                    DDLogError(@"%@:%@ courseSerialCode is %@, expected HP234", THIS_FILE, THIS_METHOD, secondCourse.courseSerialCode);
-                }
-
-                if (![secondCourse.courseName isEqualToString:@"How to ride a hypogriff"])
-                {
-                    DDLogError(@"%@:%@ courseName is %@, expected How to ride a hypogriff", THIS_FILE, THIS_METHOD, secondCourse.courseName);
-                }
-
-                if (secondCourse.courseIsAvailable.integerValue != 0)
-                {
-                    DDLogError(@"%@:%@ courseIsAvailable is %@, expected FALSE", THIS_FILE, THIS_METHOD, (secondCourse.courseIsAvailable.integerValue ? @"TRUE" : @"FALSE"));
-                }
-
-                if (![secondCourse.creationDate isEqualToDate:date])
-                {
-                    DDLogError(@"%@:%@ secondCourse creationDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstCourse.creationDate, date);
-                }
-
-                if (![secondCourse.lastModifiedDate isEqualToDate:date])
-                {
-                    DDLogError(@"%@:%@ secondCourse lastModifiedDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstCourse.lastModifiedDate, date);
-                }
-
-                if (secondCourse.enrolledStudents.count != 0)
-                {
-                    DDLogError(@"%@:%@ secondCourse enrolledStudents count is %d, expected 0", THIS_FILE, THIS_METHOD, secondCourse.enrolledStudents.count);
-                }
-
-                if ((secondCourse.courseCapacity != nil) || (firstCourse.courseCapacity.integerValue != 0))
-                {
-                    DDLogError(@"%@:%@ secondCourse courseCapacity is %d, expected 0", THIS_FILE, THIS_METHOD, firstCourse.courseCapacity.integerValue);
-                }
             }
         }
-
-        NSFetchRequest *fetchFirstStudent = [[NSFetchRequest alloc] initWithEntityName:@"StudentInformation"];
-        NSPredicate *firstStudentPredicate = [NSPredicate predicateWithFormat:@"firstname = 'Good Billy'"];
-        [fetchFirstStudent setPredicate:firstStudentPredicate];
-        NSArray *firstStudentResult = [context executeFetchRequest:fetchFirstStudent error:&error];
-        if (error)
-        {
-            DDLogError(@"%@:%@ - Failed to fetch student Good Billy", THIS_FILE, THIS_METHOD);
-        }
-        else
-        {
-            StudentInformation *firstStudent = [firstStudentResult firstObject];
-
-            if (![firstStudent.firstName isEqualToString:@"Good Billy"])
-            {
-                DDLogError(@"%@:%@ firstStudent firstname is %@, expected Good Billy", THIS_FILE, THIS_METHOD, firstStudent.firstName);
-            }
-
-            if (![firstStudent.lastName isEqualToString:@"Jean"])
-            {
-                DDLogError(@"%@:%@ firstStudent lastname is %@, expected Jean", THIS_FILE, THIS_METHOD, firstStudent.lastName);
-            }
-
-            if (firstStudent.age.longLongValue != 18)
-            {
-                DDLogError(@"%@:%@ firstStudent currentAge is %d, expected 18", THIS_FILE, THIS_METHOD, firstStudent.age.integerValue);
-            }
-
-            if ([[firstStudent.annualTutitionFee decimalNumberByRoundingAccordingToBehavior:roundCurrency] compare:[[[NSDecimalNumber alloc] initWithFloat:10000.23f] decimalNumberByRoundingAccordingToBehavior:roundCurrency]] != NSOrderedSame)
-            {
-                DDLogError(@"%@:%@ firstStudent tutitionFee is %f, expected 10000.23", THIS_FILE, THIS_METHOD, firstStudent.annualTutitionFee.doubleValue);
-            }
-
-            if (firstStudent.grade.integerValue != 83)
-            {
-                DDLogError(@"%@:%@ firstStudent avgGrade is %d, expected 83", THIS_FILE, THIS_METHOD, firstStudent.grade.integerValue);
-            }
-
-            if (firstStudent.onProbation.integerValue != 0)
-            {
-                DDLogError(@"%@:%@ firstStudent isOnProbation is %@, expected FALSE", THIS_FILE, THIS_METHOD, (firstStudent.onProbation.integerValue ? @"TRUE" : @"FALSE"));
-            }
-
-            if (firstStudent.classifiedData)
-            {
-                NSMutableDictionary *classifiedDataDict = [NSMutableDictionary dictionaryWithDictionary:
-                                                           [NSPropertyListSerialization propertyListWithData:firstStudent.classifiedData
-                                                                                                     options:0
-                                                                                                      format:nil
-                                                                                                       error:&error]];
-                if (![[classifiedDataDict objectForKey:k_EyeColour] isEqualToString:@"Blue"])
-                {
-                    DDLogError(@"%@:%@ firstStudent classifiedData Eye Color is %@, expected Blue", THIS_FILE, THIS_METHOD, [classifiedDataDict objectForKey:k_EyeColour]);
-                }
-
-                if (![[classifiedDataDict objectForKey:k_Height] isEqualToString:@"153 cm"])
-                {
-                    DDLogError(@"%@:%@ firstStudent classifiedData Height is %@, expected 153 cm", THIS_FILE, THIS_METHOD, [classifiedDataDict objectForKey:k_Height]);
-                }
-            }
-
-            if (![firstStudent.creationDate isEqualToDate:date])
-            {
-                DDLogError(@"%@:%@ firstStudent creationDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstStudent.creationDate, date);
-            }
-
-            if (![firstStudent.lastModifiedDate isEqualToDate:date])
-            {
-                DDLogError(@"%@:%@ firstStudent lastModifiedDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstStudent.lastModifiedDate, date);
-            }
-
-            if (firstStudent.selectedCourses.count != 1)
-            {
-                DDLogError(@"%@:%@ - firstStudent's selectedCourses count is %d, expected 1", THIS_FILE, THIS_METHOD, firstStudent.selectedCourses.count);
-            }
-            else
-            {
-                NSArray *firstStudentCoursesArray = [firstStudent.selectedCourses allObjects];
-                for (CourseInformation *firstCourse in firstStudentCoursesArray)
-                {
-                    if (firstCourse.courseId.integerValue != 1)
-                    {
-                        DDLogError(@"%@:%@ courseId is %d, expected 1", THIS_FILE, THIS_METHOD, firstCourse.courseId.integerValue);
-                    }
-
-                    if (![firstCourse.courseSerialCode isEqualToString:@"HP123"])
-                    {
-                        DDLogError(@"%@:%@ courseSerialCode is %@, expected HP123", THIS_FILE, THIS_METHOD, firstCourse.courseSerialCode);
-                    }
-
-                    if (![firstCourse.courseName isEqualToString:@"How to survive the unblockable curse"])
-                    {
-                        DDLogError(@"%@:%@ courseName is %@, expected How to survive the unblockable curse", THIS_FILE, THIS_METHOD, firstCourse.courseName);
-                    }
-
-                    if (firstCourse.courseIsAvailable.integerValue != 1)
-                    {
-                        DDLogError(@"%@:%@ courseIsAvailable is %@, expected TRUE", THIS_FILE, THIS_METHOD, (firstCourse.courseIsAvailable.integerValue ? @"TRUE" : @"FALSE"));
-                    }
-
-                    if (firstCourse.enrolledStudents.count != 2)
-                    {
-                        DDLogError(@"%@:%@ firstCourse enrolledStudents count is %d, expected 2", THIS_FILE, THIS_METHOD, firstCourse.enrolledStudents.count);
-                    }
-
-                    if (![firstCourse.creationDate isEqualToDate:date])
-                    {
-                        DDLogError(@"%@:%@ firstCourse creationDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstCourse.creationDate, date);
-                    }
-
-                    if (![firstCourse.lastModifiedDate isEqualToDate:date])
-                    {
-                        DDLogError(@"%@:%@ firstCourse lastModifiedDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstCourse.lastModifiedDate, date);
-                    }
-
-                    if ((firstCourse.courseCapacity != nil) || (firstCourse.courseCapacity.integerValue != 0))
-                    {
-                        DDLogError(@"%@:%@ firstCourse courseCapacity is %d, expected 0", THIS_FILE, THIS_METHOD, firstCourse.courseCapacity.integerValue);
-                    }
-                }
-            }
-        }
-
-        NSFetchRequest *fetchSecondStudent = [[NSFetchRequest alloc] initWithEntityName:@"StudentInformation"];
-        NSPredicate *secondStudentPredicate = [NSPredicate predicateWithFormat:@"firstname = 'Bad Joel'"];
-        [fetchSecondStudent setPredicate:secondStudentPredicate];
-        NSArray *secondStudentResult = [context executeFetchRequest:fetchSecondStudent error:&error];
-        if (error)
-        {
-            DDLogError(@"%@:%@ - Failed to fetch student Bad Joel", THIS_FILE, THIS_METHOD);
-        }
-        else
-        {
-            StudentInformation *secondStudent = [secondStudentResult firstObject];
-
-            if (![secondStudent.firstName isEqualToString:@"Bad Joel"])
-            {
-                DDLogError(@"%@:%@ secondStudent firstname is %@, expected Bad Joel", THIS_FILE, THIS_METHOD, secondStudent.firstName);
-            }
-
-            if (![secondStudent.lastName isEqualToString:@"Nottingham"])
-            {
-                DDLogError(@"%@:%@ secondStudent lastname is %@, expected Nottingham", THIS_FILE, THIS_METHOD, secondStudent.lastName);
-            }
-
-            if (secondStudent.age.longLongValue != 22)
-            {
-                DDLogError(@"%@:%@ secondStudent currentAge is %d, expected 22", THIS_FILE, THIS_METHOD, secondStudent.age.integerValue);
-            }
-
-            if ([[secondStudent.annualTutitionFee decimalNumberByRoundingAccordingToBehavior:roundCurrency] compare:[[[NSDecimalNumber alloc] initWithFloat:21000.23f] decimalNumberByRoundingAccordingToBehavior:roundCurrency]] != NSOrderedSame)
-            {
-                DDLogError(@"%@:%@ secondStudent tutitionFee is %f, expected 21000.23", THIS_FILE, THIS_METHOD, secondStudent.annualTutitionFee.doubleValue);
-            }
-
-            if (secondStudent.grade.integerValue != 53)
-            {
-                DDLogError(@"%@:%@ secondStudent avgGrade is %d, expected 53", THIS_FILE, THIS_METHOD, secondStudent.grade.integerValue);
-            }
-
-            if (secondStudent.onProbation.integerValue != 1)
-            {
-                DDLogError(@"%@:%@ secondStudent isOnProbation is %@, expected TRUE", THIS_FILE, THIS_METHOD, (secondStudent.onProbation.integerValue ? @"TRUE" : @"FALSE"));
-            }
-
-            if (secondStudent.classifiedData)
-            {
-                NSMutableDictionary *classifiedDataDict = [NSMutableDictionary dictionaryWithDictionary:
-                                                           [NSPropertyListSerialization propertyListWithData:secondStudent.classifiedData
-                                                                                                     options:0
-                                                                                                      format:nil
-                                                                                                       error:&error]];
-                if (![[classifiedDataDict objectForKey:k_EyeColour] isEqualToString:@"Green"])
-                {
-                    DDLogError(@"%@:%@ secondStudent classifiedData Eye Color is %@, expected Green", THIS_FILE, THIS_METHOD, [classifiedDataDict objectForKey:k_EyeColour]);
-                }
-
-                if (![[classifiedDataDict objectForKey:k_Height] isEqualToString:@"188 cm"])
-                {
-                    DDLogError(@"%@:%@ secondStudent classifiedData Height is %@, expected 188 cm", THIS_FILE, THIS_METHOD, [classifiedDataDict objectForKey:k_Height]);
-                }
-            }
-
-            if (![secondStudent.creationDate isEqualToDate:date])
-            {
-                DDLogError(@"%@:%@ secondStudent creationDate is %@, expected %@", THIS_FILE, THIS_METHOD, secondStudent.creationDate, date);
-            }
-
-            if (![secondStudent.lastModifiedDate isEqualToDate:date])
-            {
-                DDLogError(@"%@:%@ secondStudent lastModifiedDate is %@, expected %@", THIS_FILE, THIS_METHOD, secondStudent.lastModifiedDate, date);
-            }
-
-            if (secondStudent.selectedCourses.count != 1)
-            {
-                DDLogError(@"%@:%@ - secondStudent's selectedCourses count is %d, expected 1", THIS_FILE, THIS_METHOD, secondStudent.selectedCourses.count);
-            }
-            else
-            {
-                NSArray *secondStudentCoursesArray = [secondStudent.selectedCourses allObjects];
-                for (CourseInformation *firstCourse in secondStudentCoursesArray)
-                {
-                    if (firstCourse.courseId.integerValue != 1)
-                    {
-                        DDLogError(@"%@:%@ courseId is %d, expected 1", THIS_FILE, THIS_METHOD, firstCourse.courseId.integerValue);
-                    }
-
-                    if (![firstCourse.courseSerialCode isEqualToString:@"HP123"])
-                    {
-                        DDLogError(@"%@:%@ courseSerialCode is %@, expected HP123", THIS_FILE, THIS_METHOD, firstCourse.courseSerialCode);
-                    }
-
-                    if (![firstCourse.courseName isEqualToString:@"How to survive the unblockable curse"])
-                    {
-                        DDLogError(@"%@:%@ courseName is %@, expected How to survive the unblockable curse", THIS_FILE, THIS_METHOD, firstCourse.courseName);
-                    }
-
-                    if (firstCourse.courseIsAvailable.integerValue != 1)
-                    {
-                        DDLogError(@"%@:%@ courseIsAvailable is %@, expected TRUE", THIS_FILE, THIS_METHOD, (firstCourse.courseIsAvailable.integerValue ? @"TRUE" : @"FALSE"));
-                    }
-
-                    if (firstCourse.enrolledStudents.count != 2)
-                    {
-                        DDLogError(@"%@:%@ firstCourse enrolledStudents count is %d, expected 2", THIS_FILE, THIS_METHOD, firstCourse.enrolledStudents.count);
-                    }
-
-                    if (![firstCourse.creationDate isEqualToDate:date])
-                    {
-                        DDLogError(@"%@:%@ firstCourse creationDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstCourse.creationDate, date);
-                    }
-
-                    if (![firstCourse.lastModifiedDate isEqualToDate:date])
-                    {
-                        DDLogError(@"%@:%@ firstCourse lastModifiedDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstCourse.lastModifiedDate, date);
-                    }
-
-                    if ((firstCourse.courseCapacity != nil) || (firstCourse.courseCapacity.integerValue != 0))
-                    {
-                        DDLogError(@"%@:%@ firstCourse courseCapacity is %d, expected 0", THIS_FILE, THIS_METHOD, firstCourse.courseCapacity.integerValue);
-                    }
-                }
-            }
-        }
-
-        DDLogInfo(@"%@:%@ - Ended", THIS_FILE, THIS_METHOD);
     }
+
+    NSFetchRequest *fetchSecondStudent = [[NSFetchRequest alloc] initWithEntityName:@"StudentInformation"];
+    NSPredicate *secondStudentPredicate = [NSPredicate predicateWithFormat:@"firstname = 'Bad Joel'"];
+    [fetchSecondStudent setPredicate:secondStudentPredicate];
+    NSArray *secondStudentResult = [context executeFetchRequest:fetchSecondStudent error:&error];
+    if (error)
+    {
+        DDLogError(@"%@:%@ - Failed to fetch student Bad Joel", THIS_FILE, THIS_METHOD);
+    }
+    else
+    {
+        StudentInformation *secondStudent = [secondStudentResult firstObject];
+
+        if (![secondStudent.firstName isEqualToString:@"Bad Joel"])
+        {
+            DDLogError(@"%@:%@ secondStudent firstname is %@, expected Bad Joel", THIS_FILE, THIS_METHOD, secondStudent.firstName);
+        }
+
+        if (![secondStudent.lastName isEqualToString:@"Nottingham"])
+        {
+            DDLogError(@"%@:%@ secondStudent lastname is %@, expected Nottingham", THIS_FILE, THIS_METHOD, secondStudent.lastName);
+        }
+
+        if (secondStudent.age.longLongValue != 22)
+        {
+            DDLogError(@"%@:%@ secondStudent currentAge is %d, expected 22", THIS_FILE, THIS_METHOD, secondStudent.age.integerValue);
+        }
+
+        if ([[secondStudent.annualTutitionFee decimalNumberByRoundingAccordingToBehavior:roundCurrency] compare:[[[NSDecimalNumber alloc] initWithFloat:21000.23f] decimalNumberByRoundingAccordingToBehavior:roundCurrency]] != NSOrderedSame)
+        {
+            DDLogError(@"%@:%@ secondStudent tutitionFee is %f, expected 21000.23", THIS_FILE, THIS_METHOD, secondStudent.annualTutitionFee.doubleValue);
+        }
+
+        if (secondStudent.averageGrade.integerValue != 53)
+        {
+            DDLogError(@"%@:%@ secondStudent avgGrade is %d, expected 53", THIS_FILE, THIS_METHOD, secondStudent.averageGrade.integerValue);
+        }
+
+        if (secondStudent.grade.integerValue != 1)
+        {
+            DDLogError(@"%@:%@ secondStudent grade is %d, expected 1", THIS_FILE, THIS_METHOD, secondStudent.grade.integerValue);
+        }
+
+        if (secondStudent.onProbation.integerValue != 1)
+        {
+            DDLogError(@"%@:%@ secondStudent isOnProbation is %@, expected TRUE", THIS_FILE, THIS_METHOD, (secondStudent.onProbation.integerValue ? @"TRUE" : @"FALSE"));
+        }
+
+        if (secondStudent.classifiedData)
+        {
+            NSMutableDictionary *classifiedDataDict = [NSMutableDictionary dictionaryWithDictionary:
+                                                       [NSPropertyListSerialization propertyListWithData:secondStudent.classifiedData
+                                                                                                 options:0
+                                                                                                  format:nil
+                                                                                                   error:&error]];
+            if (![[classifiedDataDict objectForKey:k_EyeColour] isEqualToString:@"Green"])
+            {
+                DDLogError(@"%@:%@ secondStudent classifiedData Eye Color is %@, expected Green", THIS_FILE, THIS_METHOD, [classifiedDataDict objectForKey:k_EyeColour]);
+            }
+
+            if (![[classifiedDataDict objectForKey:k_Height] isEqualToString:@"188 cm"])
+            {
+                DDLogError(@"%@:%@ secondStudent classifiedData Height is %@, expected 188 cm", THIS_FILE, THIS_METHOD, [classifiedDataDict objectForKey:k_Height]);
+            }
+        }
+
+        if (![secondStudent.creationDate isEqualToDate:date])
+        {
+            DDLogError(@"%@:%@ secondStudent creationDate is %@, expected %@", THIS_FILE, THIS_METHOD, secondStudent.creationDate, date);
+        }
+
+        if (![secondStudent.lastModifiedDate isEqualToDate:date])
+        {
+            DDLogError(@"%@:%@ secondStudent lastModifiedDate is %@, expected %@", THIS_FILE, THIS_METHOD, secondStudent.lastModifiedDate, date);
+        }
+
+        if (secondStudent.selectedCourses.count != 1)
+        {
+            DDLogError(@"%@:%@ - secondStudent's selectedCourses count is %d, expected 1", THIS_FILE, THIS_METHOD, secondStudent.selectedCourses.count);
+        }
+        else
+        {
+            NSArray *secondStudentCoursesArray = [secondStudent.selectedCourses allObjects];
+            for (CourseInformation *firstCourse in secondStudentCoursesArray)
+            {
+                if (firstCourse.courseId.integerValue != 1)
+                {
+                    DDLogError(@"%@:%@ courseId is %d, expected 1", THIS_FILE, THIS_METHOD, firstCourse.courseId.integerValue);
+                }
+
+                if (![firstCourse.courseSerialCode isEqualToString:@"HP123"])
+                {
+                    DDLogError(@"%@:%@ courseSerialCode is %@, expected HP123", THIS_FILE, THIS_METHOD, firstCourse.courseSerialCode);
+                }
+
+                if (![firstCourse.courseName isEqualToString:@"How to survive the unblockable curse"])
+                {
+                    DDLogError(@"%@:%@ courseName is %@, expected How to survive the unblockable curse", THIS_FILE, THIS_METHOD, firstCourse.courseName);
+                }
+
+                if (firstCourse.courseIsAvailable.integerValue != 1)
+                {
+                    DDLogError(@"%@:%@ courseIsAvailable is %@, expected TRUE", THIS_FILE, THIS_METHOD, (firstCourse.courseIsAvailable.integerValue ? @"TRUE" : @"FALSE"));
+                }
+
+                if (firstCourse.enrolledStudents.count != 2)
+                {
+                    DDLogError(@"%@:%@ firstCourse enrolledStudents count is %d, expected 2", THIS_FILE, THIS_METHOD, firstCourse.enrolledStudents.count);
+                }
+
+                if (![firstCourse.creationDate isEqualToDate:date])
+                {
+                    DDLogError(@"%@:%@ firstCourse creationDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstCourse.creationDate, date);
+                }
+
+                if (![firstCourse.lastModifiedDate isEqualToDate:date])
+                {
+                    DDLogError(@"%@:%@ firstCourse lastModifiedDate is %@, expected %@", THIS_FILE, THIS_METHOD, firstCourse.lastModifiedDate, date);
+                }
+
+                if ((firstCourse.courseCapacity != nil) || (firstCourse.courseCapacity.integerValue != 0))
+                {
+                    DDLogError(@"%@:%@ firstCourse courseCapacity is %d, expected 0", THIS_FILE, THIS_METHOD, firstCourse.courseCapacity.integerValue);
+                }
+            }
+        }
+    }
+
+    DDLogInfo(@"%@:%@ - Ended", THIS_FILE, THIS_METHOD);
    }*/
 
 

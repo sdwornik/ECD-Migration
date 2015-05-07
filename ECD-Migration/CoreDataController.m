@@ -57,7 +57,7 @@
 
 #ifdef DEBUG
     // This is strictly for enabling debug messages from Encrypted Stores
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"com.apple.CoreData.SQLDebug"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"com.apple.CoreData.SQLDebug"];
 #endif
 
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
@@ -124,6 +124,11 @@
                     NSSQLitePragmasOption: @{@"journal_mode": @"DELETE"},
                     NSInferMappingModelAutomaticallyOption:@YES,
                     EncryptedStoreDatabaseLocation:[self sourceStoreURL]};
+    }
+
+    if ([self isMigrationNeeded])
+    {
+        [self migrate:nil];
     }
 
     _persistentStoreCoordinator = [EncryptedStore makeStoreWithOptions:options managedObjectModel:[self managedObjectModel] error:&error];
