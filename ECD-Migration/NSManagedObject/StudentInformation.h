@@ -1,9 +1,9 @@
 //
-//  StudentInformation.h
-//  ECD-Migration
+// StudentInformation.h
+// ECD-Migration
 //
-//  Created by Jasper Chan on 2015-04-09.
-//  Copyright (c) 2015 .. All rights reserved.
+// Created by Jasper Chan on 2015-05-07.
+// Copyright (c) 2015 .. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -13,16 +13,16 @@
 
 @interface StudentInformation : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * avgGrade;
-@property (nonatomic, retain) NSData * classifieddata;
-@property (nonatomic, retain) NSDate * creationdate;
-@property (nonatomic, retain) NSNumber * currentAge;
-@property (nonatomic, retain) NSString * firstname;
-@property (nonatomic, retain) NSNumber * isOnProbation;
-@property (nonatomic, retain) NSDate * lastmodifieddate;
-@property (nonatomic, retain) NSString * lastname;
-@property (nonatomic, retain) NSDecimalNumber * tutitionFee;
-@property (nonatomic, retain) NSNumber * year;
+@property (nonatomic, retain) NSNumber *avgGrade;
+@property (nonatomic, retain) NSData *classifieddata;
+@property (nonatomic, retain) NSDate *creationdate;
+@property (nonatomic, retain) NSNumber *currentAge;
+@property (nonatomic, retain) NSString *firstname;
+@property (nonatomic, retain) NSNumber *isOnProbation;
+@property (nonatomic, retain) NSDate *lastmodifieddate;
+@property (nonatomic, retain) NSString *lastname;
+@property (nonatomic, retain) NSDecimalNumber *tutitionFee;
+@property (nonatomic, retain) NSNumber *year;
 @property (nonatomic, retain) NSSet *courses;
 @end
 

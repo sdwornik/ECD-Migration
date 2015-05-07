@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="13F1066" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="CourseDetailInformation" representedClassName="CourseDetailInformation" syncable="YES">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D136" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="CourseDetailInformation" representedClassName="CourseDetailInformation" elementID="CourseInformation" syncable="YES">
         <attribute name="courseCapacity" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="courseId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="courseIsAvailable" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="courseName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="courseSerialCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="courseIsAvailable" optional="YES" attributeType="Boolean" elementID="isAvailable" syncable="YES"/>
+        <attribute name="courseName" optional="YES" attributeType="String" elementID="courseTitle" syncable="YES"/>
+        <attribute name="courseSerialCode" optional="YES" attributeType="String" elementID="courseCode" syncable="YES"/>
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="lastModifiedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="assignedProfessor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfessorInformation" inverseName="teachableCourses" inverseEntity="ProfessorInformation" syncable="YES"/>
@@ -35,7 +35,7 @@
         <relationship name="selectedCourses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CourseDetailInformation" inverseName="enrolledStudents" inverseEntity="CourseDetailInformation" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CourseDetailInformation" positionX="-54" positionY="63" width="128" height="178"/>
+        <element name="CourseDetailInformation" positionX="-54" positionY="63" width="128" height="180"/>
         <element name="ProfessorInformation" positionX="-36" positionY="99" width="128" height="163"/>
         <element name="StudentInformation" positionX="-63" positionY="-18" width="128" height="210"/>
     </elements>

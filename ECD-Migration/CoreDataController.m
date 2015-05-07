@@ -214,7 +214,7 @@
         isMigrationNeeded = ![destinationModel isConfiguration:nil
                                    compatibleWithStoreMetadata           :sourceMetadata];
 
-        if (!isMigrationNeeded)
+        if (isMigrationNeeded)
         {
             DDLogWarn(@"%@:%@ - DB Changed!  Coredata migration is necessary...", THIS_FILE, THIS_METHOD);
         }

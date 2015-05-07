@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="13F1066" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D136" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="CourseInformation" representedClassName="CourseInformation" syncable="YES">
         <attribute name="courseCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="courseId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="courseTitle" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" elementID="creationdate" syncable="YES"/>
         <attribute name="isAvailable" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="lastModifiedDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="assignedProfessor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfessorInformation" inverseName="teachableCourses" inverseEntity="ProfessorInformation" syncable="YES"/>
-        <relationship name="enrolledStudents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StudentInformation" inverseName="selectedCourses" inverseEntity="StudentInformation" syncable="YES"/>
+        <attribute name="lastModifiedDate" optional="YES" attributeType="Date" elementID="lastmodifieddate" syncable="YES"/>
+        <relationship name="assignedProfessor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfessorInformation" inverseName="teachableCourses" inverseEntity="ProfessorInformation" elementID="teachingProfessor" syncable="YES"/>
+        <relationship name="enrolledStudents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StudentInformation" inverseName="selectedCourses" inverseEntity="StudentInformation" elementID="students" syncable="YES"/>
     </entity>
     <entity name="ProfessorInformation" representedClassName="ProfessorInformation" syncable="YES">
         <attribute name="age" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" elementID="creationdate" syncable="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isAvailable" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="lastModifiedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="lastModifiedDate" optional="YES" attributeType="Date" elementID="lastmodifieddate" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="salary" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="salary" optional="YES" attributeType="Decimal" defaultValueString="0.0" elementID="annualSalary" syncable="YES"/>
         <relationship name="teachableCourses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CourseInformation" inverseName="assignedProfessor" inverseEntity="CourseInformation" syncable="YES"/>
     </entity>
     <entity name="StudentInformation" representedClassName="StudentInformation" syncable="YES">
-        <attribute name="age" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="annualTutitionFee" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="averageGrade" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="classifiedData" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="grade" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="lastModifiedDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="onProbation" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <relationship name="selectedCourses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CourseInformation" inverseName="enrolledStudents" inverseEntity="CourseInformation" syncable="YES"/>
+        <attribute name="age" optional="YES" attributeType="Integer 64" defaultValueString="0" elementID="currentAge" syncable="YES"/>
+        <attribute name="annualTutitionFee" optional="YES" attributeType="Decimal" defaultValueString="0.0" elementID="tutitionFee" syncable="YES"/>
+        <attribute name="averageGrade" optional="YES" attributeType="Double" defaultValueString="0.0" elementID="avgGrade" syncable="YES"/>
+        <attribute name="classifiedData" optional="YES" attributeType="Binary" elementID="classifieddata" syncable="YES"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" elementID="creationdate" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" elementID="firstname" syncable="YES"/>
+        <attribute name="grade" optional="YES" attributeType="Integer 16" defaultValueString="0" elementID="year" syncable="YES"/>
+        <attribute name="lastModifiedDate" optional="YES" attributeType="Date" elementID="lastmodifieddate" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" elementID="lastname" syncable="YES"/>
+        <attribute name="onProbation" optional="YES" attributeType="Boolean" elementID="isOnProbation" syncable="YES"/>
+        <relationship name="selectedCourses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CourseInformation" inverseName="enrolledStudents" inverseEntity="CourseInformation" elementID="courses" syncable="YES"/>
     </entity>
     <elements>
         <element name="CourseInformation" positionX="-54" positionY="63" width="128" height="165"/>
-        <element name="ProfessorInformation" positionX="-36" positionY="99" width="128" height="163"/>
+        <element name="ProfessorInformation" positionX="-36" positionY="99" width="128" height="165"/>
         <element name="StudentInformation" positionX="-63" positionY="-18" width="128" height="210"/>
     </elements>
 </model>

@@ -92,8 +92,8 @@
             @try
             {
                 // Comment out initializeDefaultData and verifyInitialData when you are not initializing the Core Data with a version 1 data model.
-                // [self initializeDefaultData];
-                // [self verifyInitialData];
+                [self initializeDefaultData];
+                [self verifyInitialData];
 
 
                 self.encryptCoreDataSwitch.enabled = NO;
@@ -143,7 +143,7 @@
     // [self verifyInitialData];
 
     // Comment this out when not migrating from initial version to version 2
-    [self testCaseInitialToVersion2];
+    // [self testCaseInitialToVersion2];
 
     // Comment this out when not migrating from initial version to version 3
     // [self testCaseInitialToVersion3];
@@ -156,8 +156,8 @@
 // Function name: initializeDefaultData
 // Dependency: Must be used with the initial data model ONLY.
 // Purpose: Insert some initial data in preparation for migration tests.
-/*- (void)initializeDefaultData
-   {
+- (void)initializeDefaultData
+{
     DDLogInfo(@"%@:%@ - Started", THIS_FILE, THIS_METHOD);
 
     NSDecimalNumberHandler *roundCurrency = [NSDecimalNumberHandler
@@ -264,7 +264,7 @@
     }
 
     DDLogInfo(@"%@:%@ - Ended", THIS_FILE, THIS_METHOD);
-   }*/
+}
 
 
 
@@ -272,8 +272,8 @@
 // Function Name: verifyInitialData
 // Dependency: Must be used with the initial data model ONLY.
 // Purpose: Verify initial data is correct.
-/*- (void)verifyInitialData
-   {
+- (void)verifyInitialData
+{
     DDLogInfo(@"%@:%@ - Started", THIS_FILE, THIS_METHOD);
     NSDecimalNumberHandler *roundCurrency = [NSDecimalNumberHandler
                                              decimalNumberHandlerWithRoundingMode:NSRoundPlain
@@ -659,7 +659,7 @@
     }
 
     DDLogInfo(@"%@:%@ - Ended", THIS_FILE, THIS_METHOD);
-   }*/
+}
 
 
 
@@ -667,8 +667,8 @@
 // Function Name: testCaseInitialToVersion2
 // Dependency: Must be run with only data model version 2
 // Purpose: Verify data is complete and correct after migrating from initial data model to version 2
-- (void)testCaseInitialToVersion2
-{
+/*- (void)testCaseInitialToVersion2
+   {
     DDLogInfo(@"%@:%@ - Started", THIS_FILE, THIS_METHOD);
     NSDecimalNumberHandler *roundCurrency = [NSDecimalNumberHandler
                                              decimalNumberHandlerWithRoundingMode:NSRoundPlain
@@ -1064,7 +1064,7 @@
     }
 
     DDLogInfo(@"%@:%@ - Ended", THIS_FILE, THIS_METHOD);
-}
+   }*/
 
 
 
@@ -1148,7 +1148,7 @@
         {
             NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"courseId" ascending:YES selector:nil];
             NSArray *sortedTeachables = [harryPotter.teachableCourses sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
-            CourseInformation *firstCourse = [sortedTeachables objectAtIndex:0];
+            CourseDetailInformation *firstCourse = [sortedTeachables objectAtIndex:0];
 
             if (firstCourse.courseId.integerValue != 1)
             {
@@ -1190,7 +1190,7 @@
                 DDLogError(@"%@:%@ firstCourse courseCapacity is %d, expected 0", THIS_FILE, THIS_METHOD, firstCourse.courseCapacity.integerValue);
             }
 
-            CourseInformation *secondCourse = [sortedTeachables objectAtIndex:1];
+            CourseDetailInformation *secondCourse = [sortedTeachables objectAtIndex:1];
 
             if (secondCourse.courseId.integerValue != 2)
             {
@@ -1316,7 +1316,7 @@
         else
         {
             NSArray *firstStudentCoursesArray = [firstStudent.selectedCourses allObjects];
-            for (CourseInformation *firstCourse in firstStudentCoursesArray)
+            for (CourseDetailInformation *firstCourse in firstStudentCoursesArray)
             {
                 if (firstCourse.courseId.integerValue != 1)
                 {
@@ -1443,7 +1443,7 @@
         else
         {
             NSArray *secondStudentCoursesArray = [secondStudent.selectedCourses allObjects];
-            for (CourseInformation *firstCourse in secondStudentCoursesArray)
+            for (CourseDetailInformation *firstCourse in secondStudentCoursesArray)
             {
                 if (firstCourse.courseId.integerValue != 1)
                 {
