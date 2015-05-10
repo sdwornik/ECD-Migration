@@ -15,6 +15,7 @@
 - (BOOL)progressivelyMigrateURL:(NSURL *)sourceStoreURL
                          ofType:(NSString *)type
                         toModel:(NSManagedObjectModel *)finalModel
+                        options:(NSDictionary *)options
                           error:(NSError **)error;
 
 @property (nonatomic, weak) id<CoreDataMigrationControllerDelegate> delegate;

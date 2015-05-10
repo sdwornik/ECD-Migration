@@ -5,6 +5,7 @@
 - (BOOL)progressivelyMigrateURL:(NSURL *)sourceStoreURL
                          ofType:(NSString *)type
                         toModel:(NSManagedObjectModel *)finalModel
+                        options:(NSDictionary *)options
                           error:(NSError **)error
 {
     NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:type
@@ -55,11 +56,12 @@
                  options:NSKeyValueObservingOptionNew
                  context:nil];
     BOOL didMigrate = NO;
+
     for (NSMappingModel *mappingModel in mappingModels)
     {
         didMigrate = [manager migrateStoreFromURL:sourceStoreURL
                                              type:type
-                                          options:nil
+                                          options:options
                                  withMappingModel:mappingModel
                                  toDestinationURL:destinationStoreURL
                                   destinationType:type
@@ -77,6 +79,7 @@
     return [self progressivelyMigrateURL:sourceStoreURL
                                   ofType:type
                                  toModel:finalModel
+                                 options:options
                                    error:error];
 }
 

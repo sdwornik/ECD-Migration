@@ -11,7 +11,7 @@
 + (CoreDataController*)sharedInstance;
 
 - (BOOL)isMigrationNeeded;
-- (BOOL)migrate:(NSError *__autoreleasing *)error;
+- (BOOL)migrateWithOptions:options error:(NSError *__autoreleasing *)error;
 
 - (NSURL *)sourceStoreURL;
 - (void)cleanupPersistentStoreCoordinator;

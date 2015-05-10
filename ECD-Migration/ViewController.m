@@ -19,7 +19,7 @@
 // #import "CourseDetailInformation.h"
 
 // Comment this out if migrating to version 3
- #import "CourseInformation.h"
+#import "CourseInformation.h"
 
 
 #define k_EyeColour @"eyeColour"

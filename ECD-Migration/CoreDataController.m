@@ -128,7 +128,7 @@
 
     if ([self isMigrationNeeded])
     {
-        [self migrate:nil];
+        // [self migrateWithOptions:options error:nil];
     }
 
     _persistentStoreCoordinator = [EncryptedStore makeStoreWithOptions:options managedObjectModel:[self managedObjectModel] error:&error];
@@ -152,16 +152,20 @@
         return _managedObjectModel;
     }
 
-    NSString *fileName;
-    fileName = NSLocalizedString(@"ECD_Migration", nil);
+    NSString *momPath = [[NSBundle mainBundle] pathForResource:@"ECD_Migration"
+                                                        ofType:@"momd"];
 
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:fileName withExtension:@"momd"];
-
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[modelURL path]])
+    if (!momPath)
     {
-        DDLogDebug(@"%@", [modelURL path]); // This is printed because file exists
+        momPath = [[NSBundle mainBundle] pathForResource:@"Model"
+                                                  ofType:@"mom"];
+    }
 
-        _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    NSURL *url = [NSURL fileURLWithPath:momPath];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[url path]])
+    {
+        DDLogDebug(@"%@", [url path]);
+        _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
         return _managedObjectModel;
     }
     else
@@ -233,7 +237,7 @@
 
 
 
-- (BOOL)migrate:(NSError *__autoreleasing *)error
+- (BOOL)migrateWithOptions:(NSDictionary *)options error:(NSError *__autoreleasing *)error
 {
     // Enable migrations to run even while user exits app
     __block UIBackgroundTaskIdentifier bgTask;
@@ -248,6 +252,7 @@
     BOOL OK = [migrationManager progressivelyMigrateURL:[self sourceStoreURL]
                                                  ofType:[self sourceStoreType]
                                                 toModel:[self managedObjectModel]
+                                                options:options
                                                   error:error];
     if (OK)
     {

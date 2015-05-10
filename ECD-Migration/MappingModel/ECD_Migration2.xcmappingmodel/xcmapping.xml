@@ -5,7 +5,7 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>00FD4B16-6FC2-4FBA-97FA-24DBA823E281</UUID>
-        <nextObjectID>135</nextObjectID>
+        <nextObjectID>138</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -273,6 +273,36 @@ CBMUGRoiJywtMjZVJG51bGzVCQoLDA0ODxAREllOU09wZXJhbmReTlNTZWxlY3Rvck5hbWVfEBBOU0V4
         <attribute name="mappingtypename" type="string">Undefined</attribute>
         <attribute name="mappingnumber" type="int16">0</attribute>
         <attribute name="destinationname" type="string">StudentInformation</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z136">
+        <attribute name="sourcename" type="string">StudentInformation</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">StudentInformation</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z137">
+        <attribute name="sourcename" type="string">CourseInformation</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">CourseInformation</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z138">
+        <attribute name="sourcename" type="string">ProfessorInformation</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">ProfessorInformation</attribute>
         <attribute name="autogenerateexpression" type="bool">1</attribute>
         <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
         <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
