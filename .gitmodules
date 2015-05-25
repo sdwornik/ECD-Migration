@@ -1,0 +1,3 @@
+[submodule "ECD-Migration/Vendor/MagicalRecord"]
+	path = ECD-Migration/Vendor/MagicalRecord
+	url = https://github.com/magicalpanda/MagicalRecord.git
