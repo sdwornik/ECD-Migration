@@ -122,6 +122,11 @@ static NSString * const EncryptedStoreMetadataTableName = @"meta";
         }
     }
     
+    if (databaseURL)
+    {
+        [[NSFileManager defaultManager] setAttributes:options ofItemAtPath:[databaseURL absoluteString] error:nil];
+    }
+    
     if (backup){
         NSString *dbNameKey = (__bridge NSString *)kCFBundleNameKey;
         NSString *dbName = NSBundle.mainBundle.infoDictionary[dbNameKey];
@@ -1761,11 +1766,14 @@ static void dbsqliteRegExp(sqlite3_context *context, int argc, const char **argv
                     NSNumber *orderSequence = @(0);
                     
                     NSManagedObject * relationshipObject = [object valueForKey:[desc name]];
-                    NSSet* values = [relationshipObject valueForKey:[inverse name]];
-                    if ([values isKindOfClass:[NSOrderedSet class]]) {
-                        NSOrderedSet* orderedValues = (NSOrderedSet*) values;
-                        orderSequence = @([orderedValues indexOfObject:object]);
+                    if (inverse) {
+                        NSSet* values = [relationshipObject valueForKey:[inverse name]];
+                        if ([values isKindOfClass:[NSOrderedSet class]]) {
+                            NSOrderedSet* orderedValues = (NSOrderedSet*) values;
+                            orderSequence = @([orderedValues indexOfObject:object]);
+                        }
                     }
+                    
                     
                     [columns addObject:[NSString stringWithFormat:@"%@=?", column]];
                     [columns addObject:[NSString stringWithFormat:@"%@=%ld", orderColumn, (long)[orderSequence integerValue]]];
@@ -1801,7 +1809,11 @@ static void dbsqliteRegExp(sqlite3_context *context, int argc, const char **argv
             id property = [properties objectForKey:obj];
 #if USE_MANUAL_NODE_CACHE
             if (value && ![value isKindOfClass:[NSNull class]]) {
-                [cacheChanges setObject:value forKey:obj];
+                if ([property isKindOfClass:[NSRelationshipDescription class]]) {
+                    [cacheChanges setObject:[value objectID] forKey:obj];
+                } else {
+                    [cacheChanges setObject:value forKey:obj];
+                }
             }
             else {
                 [cacheChanges setObject: [NSNull null] forKey: obj];
@@ -3192,10 +3204,11 @@ static void dbsqliteRegExp(sqlite3_context *context, int argc, const char **argv
 {
     NSMutableDictionary * updateValues = [NSMutableDictionary dictionaryWithCapacity:self.allProperties.count];
     for (NSPropertyDescription * key in self.allProperties) {
-        id newValue = [changedValues objectForKey:key.name];
-        id value = newValue ?: [self valueForPropertyDescription:key];
-        if (value && ![value isEqual: [NSNull null]]) {
-            [updateValues setObject:value forKey:key.name];
+            @autoreleasepool {
+                id value = ([changedValues objectForKey:key.name] ? [changedValues objectForKey:key.name] : [self valueForPropertyDescription:key]);
+                if (value && ![value isEqual: [NSNull null]]) {
+                    [updateValues setObject:value forKey:key.name];
+                }
         }
     }
     [self updateWithValues:updateValues version:self.version+1];

@@ -18,9 +18,6 @@
 		BD0711F71AD42F4300B62433 /* DDDispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = BD0711EB1AD42F4300B62433 /* DDDispatchQueueLogFormatter.m */; };
 		BD0711F81AD42F4300B62433 /* DDMultiFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = BD0711ED1AD42F4300B62433 /* DDMultiFormatter.m */; };
 		BD0711FB1AD430C300B62433 /* CoreDataMigrationController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD0711FA1AD430C300B62433 /* CoreDataMigrationController.m */; };
-		BD1A58E91AFFE7AD005DF233 /* CourseInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = BD1A58E81AFFE7AD005DF233 /* CourseInformation.m */; };
-		BD1A58EC1AFFE7AE005DF233 /* ProfessorInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = BD1A58EB1AFFE7AE005DF233 /* ProfessorInformation.m */; };
-		BD1A58EF1AFFE7AE005DF233 /* StudentInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = BD1A58EE1AFFE7AE005DF233 /* StudentInformation.m */; };
 		BD3DAF4D1AFBB5A900ABFCB0 /* ECD_Migration2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = BD3DAF4B1AFBB5A900ABFCB0 /* ECD_Migration2.xcmappingmodel */; };
 		BD55AF0E1AD585B8006AAE58 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD55AF091AD585B8006AAE58 /* SVIndefiniteAnimatedView.m */; };
 		BD55AF0F1AD585B8006AAE58 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BD55AF0B1AD585B8006AAE58 /* SVProgressHUD.bundle */; };
@@ -38,6 +35,12 @@
 		BDA16EC31AD408EA00871DE9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDA0F7261AC582370083A2FB /* LaunchScreen.xib */; };
 		BDA16EC61AD4122400871DE9 /* CoreDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDA16EC51AD4122400871DE9 /* CoreDataController.m */; };
 		BDA16ECA1AD4214800871DE9 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BDA16EC91AD4214800871DE9 /* libsqlite3.0.dylib */; };
+		BDDB36C91BA1C78300A6E273 /* CourseInformationMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = BDDB36C41BA1C78300A6E273 /* CourseInformationMigrationPolicy.m */; };
+		BDDB36CA1BA1C78300A6E273 /* ProfessorToProfessorMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = BDDB36C61BA1C78300A6E273 /* ProfessorToProfessorMigrationPolicy.m */; };
+		BDDB36CB1BA1C78300A6E273 /* StudentToStudentMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = BDDB36C81BA1C78300A6E273 /* StudentToStudentMigrationPolicy.m */; };
+		BDDB36D21BA1C7F900A6E273 /* CourseInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = BDDB36CD1BA1C7F900A6E273 /* CourseInformation.m */; };
+		BDDB36D31BA1C7F900A6E273 /* ProfessorInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = BDDB36CF1BA1C7F900A6E273 /* ProfessorInformation.m */; };
+		BDDB36D41BA1C7F900A6E273 /* StudentInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = BDDB36D11BA1C7F900A6E273 /* StudentInformation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,12 +96,6 @@
 		BD0711F91AD430C300B62433 /* CoreDataMigrationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataMigrationController.h; sourceTree = "<group>"; };
 		BD0711FA1AD430C300B62433 /* CoreDataMigrationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataMigrationController.m; sourceTree = "<group>"; };
 		BD0711FD1AD431BE00B62433 /* ECD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ECD-Prefix.pch"; sourceTree = "<group>"; };
-		BD1A58E71AFFE7AD005DF233 /* CourseInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourseInformation.h; path = NSManagedObject/CourseInformation.h; sourceTree = "<group>"; };
-		BD1A58E81AFFE7AD005DF233 /* CourseInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourseInformation.m; path = NSManagedObject/CourseInformation.m; sourceTree = "<group>"; };
-		BD1A58EA1AFFE7AE005DF233 /* ProfessorInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfessorInformation.h; path = NSManagedObject/ProfessorInformation.h; sourceTree = "<group>"; };
-		BD1A58EB1AFFE7AE005DF233 /* ProfessorInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfessorInformation.m; path = NSManagedObject/ProfessorInformation.m; sourceTree = "<group>"; };
-		BD1A58ED1AFFE7AE005DF233 /* StudentInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StudentInformation.h; path = NSManagedObject/StudentInformation.h; sourceTree = "<group>"; };
-		BD1A58EE1AFFE7AE005DF233 /* StudentInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StudentInformation.m; path = NSManagedObject/StudentInformation.m; sourceTree = "<group>"; };
 		BD3DAF4B1AFBB5A900ABFCB0 /* ECD_Migration2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; name = ECD_Migration2.xcmappingmodel; path = MappingModel/ECD_Migration2.xcmappingmodel; sourceTree = "<group>"; };
 		BD55AF081AD585B8006AAE58 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		BD55AF091AD585B8006AAE58 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
@@ -129,6 +126,18 @@
 		BDA16EC51AD4122400871DE9 /* CoreDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataController.m; sourceTree = "<group>"; };
 		BDA16EC91AD4214800871DE9 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		BDA16ECC1AD4215800871DE9 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		BDDB36C31BA1C78300A6E273 /* CourseInformationMigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourseInformationMigrationPolicy.h; path = EntityMigrationPolicy/CourseInformationMigrationPolicy.h; sourceTree = "<group>"; };
+		BDDB36C41BA1C78300A6E273 /* CourseInformationMigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourseInformationMigrationPolicy.m; path = EntityMigrationPolicy/CourseInformationMigrationPolicy.m; sourceTree = "<group>"; };
+		BDDB36C51BA1C78300A6E273 /* ProfessorToProfessorMigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfessorToProfessorMigrationPolicy.h; path = EntityMigrationPolicy/ProfessorToProfessorMigrationPolicy.h; sourceTree = "<group>"; };
+		BDDB36C61BA1C78300A6E273 /* ProfessorToProfessorMigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfessorToProfessorMigrationPolicy.m; path = EntityMigrationPolicy/ProfessorToProfessorMigrationPolicy.m; sourceTree = "<group>"; };
+		BDDB36C71BA1C78300A6E273 /* StudentToStudentMigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StudentToStudentMigrationPolicy.h; path = EntityMigrationPolicy/StudentToStudentMigrationPolicy.h; sourceTree = "<group>"; };
+		BDDB36C81BA1C78300A6E273 /* StudentToStudentMigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StudentToStudentMigrationPolicy.m; path = EntityMigrationPolicy/StudentToStudentMigrationPolicy.m; sourceTree = "<group>"; };
+		BDDB36CC1BA1C7F900A6E273 /* CourseInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourseInformation.h; path = NSManagedObject/CourseInformation.h; sourceTree = "<group>"; };
+		BDDB36CD1BA1C7F900A6E273 /* CourseInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourseInformation.m; path = NSManagedObject/CourseInformation.m; sourceTree = "<group>"; };
+		BDDB36CE1BA1C7F900A6E273 /* ProfessorInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfessorInformation.h; path = NSManagedObject/ProfessorInformation.h; sourceTree = "<group>"; };
+		BDDB36CF1BA1C7F900A6E273 /* ProfessorInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfessorInformation.m; path = NSManagedObject/ProfessorInformation.m; sourceTree = "<group>"; };
+		BDDB36D01BA1C7F900A6E273 /* StudentInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StudentInformation.h; path = NSManagedObject/StudentInformation.h; sourceTree = "<group>"; };
+		BDDB36D11BA1C7F900A6E273 /* StudentInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StudentInformation.m; path = NSManagedObject/StudentInformation.m; sourceTree = "<group>"; };
 		BDE766491AD6C0B10036765F /* ECD_Migration.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ECD_Migration.3.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -208,6 +217,19 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		BD21F3EB1B95D1B200A433B4 /* EntityMigrationPolicy */ = {
+			isa = PBXGroup;
+			children = (
+				BDDB36C31BA1C78300A6E273 /* CourseInformationMigrationPolicy.h */,
+				BDDB36C41BA1C78300A6E273 /* CourseInformationMigrationPolicy.m */,
+				BDDB36C51BA1C78300A6E273 /* ProfessorToProfessorMigrationPolicy.h */,
+				BDDB36C61BA1C78300A6E273 /* ProfessorToProfessorMigrationPolicy.m */,
+				BDDB36C71BA1C78300A6E273 /* StudentToStudentMigrationPolicy.h */,
+				BDDB36C81BA1C78300A6E273 /* StudentToStudentMigrationPolicy.m */,
+			);
+			name = EntityMigrationPolicy;
+			sourceTree = "<group>";
+		};
 		BD55AF071AD585B8006AAE58 /* SVProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -225,12 +247,12 @@
 		BD84F13E1AD5586500583D38 /* NSManagedObject */ = {
 			isa = PBXGroup;
 			children = (
-				BD1A58ED1AFFE7AE005DF233 /* StudentInformation.h */,
-				BD1A58EE1AFFE7AE005DF233 /* StudentInformation.m */,
-				BD1A58EA1AFFE7AE005DF233 /* ProfessorInformation.h */,
-				BD1A58EB1AFFE7AE005DF233 /* ProfessorInformation.m */,
-				BD1A58E71AFFE7AD005DF233 /* CourseInformation.h */,
-				BD1A58E81AFFE7AD005DF233 /* CourseInformation.m */,
+				BDDB36CC1BA1C7F900A6E273 /* CourseInformation.h */,
+				BDDB36CD1BA1C7F900A6E273 /* CourseInformation.m */,
+				BDDB36CE1BA1C7F900A6E273 /* ProfessorInformation.h */,
+				BDDB36CF1BA1C7F900A6E273 /* ProfessorInformation.m */,
+				BDDB36D01BA1C7F900A6E273 /* StudentInformation.h */,
+				BDDB36D11BA1C7F900A6E273 /* StudentInformation.m */,
 			);
 			name = NSManagedObject;
 			sourceTree = "<group>";
@@ -279,6 +301,7 @@
 				BDA0F7241AC582370083A2FB /* Images.xcassets */,
 				BDA0F7261AC582370083A2FB /* LaunchScreen.xib */,
 				BDA0F71B1AC582370083A2FB /* ECD_Migration.xcdatamodeld */,
+				BD21F3EB1B95D1B200A433B4 /* EntityMigrationPolicy */,
 				BD55AF071AD585B8006AAE58 /* SVProgressHUD */,
 				BD84F1491AD561D400583D38 /* MappingModel */,
 				BD84F13E1AD5586500583D38 /* NSManagedObject */,
@@ -454,26 +477,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD0711F61AD42F4300B62433 /* DDContextFilterLogFormatter.m in Sources */,
-				BD1A58E91AFFE7AD005DF233 /* CourseInformation.m in Sources */,
 				BDA0F71A1AC582370083A2FB /* AppDelegate.m in Sources */,
 				BD9B8D9C1AFF008200D7F2F3 /* ECD_Migration3.xcmappingmodel in Sources */,
 				BD0711F31AD42F4300B62433 /* DDFileLogger.m in Sources */,
+				BDDB36C91BA1C78300A6E273 /* CourseInformationMigrationPolicy.m in Sources */,
 				BDA0F71D1AC582370083A2FB /* ECD_Migration.xcdatamodeld in Sources */,
+				BDDB36CB1BA1C78300A6E273 /* StudentToStudentMigrationPolicy.m in Sources */,
+				BDDB36CA1BA1C78300A6E273 /* ProfessorToProfessorMigrationPolicy.m in Sources */,
 				BDA16EC61AD4122400871DE9 /* CoreDataController.m in Sources */,
 				BD0711F21AD42F4300B62433 /* DDASLLogger.m in Sources */,
-				BD1A58EC1AFFE7AE005DF233 /* ProfessorInformation.m in Sources */,
 				BD0711F51AD42F4300B62433 /* DDTTYLogger.m in Sources */,
+				BDDB36D41BA1C7F900A6E273 /* StudentInformation.m in Sources */,
 				BDA0F7201AC582370083A2FB /* ViewController.m in Sources */,
 				BD3DAF4D1AFBB5A900ABFCB0 /* ECD_Migration2.xcmappingmodel in Sources */,
 				BD55AF0E1AD585B8006AAE58 /* SVIndefiniteAnimatedView.m in Sources */,
 				BD55AF101AD585B8006AAE58 /* SVProgressHUD.m in Sources */,
 				BD0711F11AD42F4300B62433 /* DDASLLogCapture.m in Sources */,
+				BDDB36D21BA1C7F900A6E273 /* CourseInformation.m in Sources */,
 				BD0711F41AD42F4300B62433 /* DDLog.m in Sources */,
 				BD0711EE1AD42F4300B62433 /* CLIColor.m in Sources */,
 				BD0711F71AD42F4300B62433 /* DDDispatchQueueLogFormatter.m in Sources */,
+				BDDB36D31BA1C7F900A6E273 /* ProfessorInformation.m in Sources */,
 				BD0711F01AD42F4300B62433 /* DDAbstractDatabaseLogger.m in Sources */,
 				BD0711F81AD42F4300B62433 /* DDMultiFormatter.m in Sources */,
-				BD1A58EF1AFFE7AE005DF233 /* StudentInformation.m in Sources */,
 				BD0711FB1AD430C300B62433 /* CoreDataMigrationController.m in Sources */,
 				BDA0FC901AC582A80083A2FB /* EncryptedStore.m in Sources */,
 				BDA0F7171AC582370083A2FB /* main.m in Sources */,

@@ -20,6 +20,7 @@
 @property (nonatomic, readwrite, strong) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, readwrite, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readwrite, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (strong) NSManagedObjectContext *privateContext;
 @property (nonatomic) BOOL shouldEncryptCoreData;
 @end
 
@@ -58,16 +59,19 @@
 #ifdef DEBUG
     // This is strictly for enabling debug messages from Encrypted Stores
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"com.apple.CoreData.SQLDebug"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"com.apple.CoreData.MigrationDebug"];
 #endif
 
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
 
     if (coordinator != nil)
     {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
+        [self setManagedObjectContext:[[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType]];
+        [self setPrivateContext:[[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType]];
+        [[self privateContext] setPersistentStoreCoordinator:coordinator];
+        [[self managedObjectContext] setParentContext:[self privateContext]];
         NSUndoManager *undoManager = [[NSUndoManager alloc] init];
         [_managedObjectContext setUndoManager:undoManager];
-        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
     }
 
     return _managedObjectContext;
@@ -87,32 +91,39 @@
 
     // Feel free to re-enable this block of code, and commenting out the ECD part to test with stock SQLite for progressive migration.
     // STOCK SQLITE COREDATA STARTS HERE
-/*
-    NSURL *storeUrl = [NSURL fileURLWithPath:[[gkAPPDELEGATE applicationDocumentsDirectory]
+    /*
+       NSURL *storeUrl = [NSURL fileURLWithPath:[[gkAPPDELEGATE applicationDocumentsDirectory]
                                               stringByAppendingPathComponent:kSQLStoreName]];
 
-    options = @{NSPersistentStoreFileProtectionKey: NSFileProtectionComplete,
-                NSMigratePersistentStoresAutomaticallyOption:@YES,
-                NSInferMappingModelAutomaticallyOption:@YES};
+       options = @{NSPersistentStoreFileProtectionKey: NSFileProtectionComplete,
+                NSMigratePersistentStoresAutomaticallyOption:@NO,
+                NSInferMappingModelAutomaticallyOption:@NO};
 
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
+
+       _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
                                    initWithManagedObjectModel:[self managedObjectModel]];
 
-    NSError*error;
-    [_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+       if ([self isMigrationNeeded])
+       {
+        [self migrateWithOptions:options error:nil];
+       }
+
+       [_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
                                               configuration:nil
                                                         URL:storeUrl
                                                     options:options
-                                                      error:&error];
- */
+                                                      error:&error];*/
+
     // STOCK SQLITE COREDATA ENDS HERE
 
     // ECD STARTS HERE
+
+
     if (self.shouldEncryptCoreData)
     {
         options = @{NSPersistentStoreFileProtectionKey: NSFileProtectionComplete,
-                    NSMigratePersistentStoresAutomaticallyOption:@YES,
-                    NSInferMappingModelAutomaticallyOption:@YES,
+                    // NSMigratePersistentStoresAutomaticallyOption:@NO,
+                    // NSInferMappingModelAutomaticallyOption:@NO,
                     NSSQLitePragmasOption: @{@"journal_mode": @"DELETE"},
                     EncryptedStoreDatabaseLocation:[self sourceStoreURL],
                     EncryptedStorePassphraseKey:@"Some Random Key String"};
@@ -120,15 +131,15 @@
     else
     {
         options = @{NSPersistentStoreFileProtectionKey: NSFileProtectionComplete,
-                    NSMigratePersistentStoresAutomaticallyOption:@YES,
+                    NSMigratePersistentStoresAutomaticallyOption:@NO,
+                    NSInferMappingModelAutomaticallyOption:@NO,
                     NSSQLitePragmasOption: @{@"journal_mode": @"DELETE"},
-                    NSInferMappingModelAutomaticallyOption:@YES,
                     EncryptedStoreDatabaseLocation:[self sourceStoreURL]};
     }
 
     if ([self isMigrationNeeded])
     {
-        // [self migrateWithOptions:options error:nil];
+        [self migrateWithOptions:options error:nil];
     }
 
     _persistentStoreCoordinator = [EncryptedStore makeStoreWithOptions:options managedObjectModel:[self managedObjectModel] error:&error];
@@ -267,21 +278,31 @@
 
 
 
-- (void)mergeChanges:(NSNotification *)notification
+- (void)save;
 {
-// DDLogWarn(@"%@:%@ *-*-*  DB UPGRADE - start  *-*-*", THIS_FILE, THIS_METHOD);
+    if (![[self privateContext] hasChanges] && ![[self managedObjectContext] hasChanges])
+    {
+        return;
+    }
 
-    NSManagedObjectContext *mainContext = [self managedObjectContext];
+    [[self managedObjectContext] performBlockAndWait:^{
+         NSError *error = nil;
+         [[self managedObjectContext] save:&error];
+         if (error)
+         {
+             DDLogError(@"Failed to save main context: %@\n%@", [error localizedDescription], [error userInfo]);
+         }
 
-    // Merge changes into the main context on the main thread
-    [mainContext performSelectorOnMainThread:@selector(mergeChangesFromContextDidSaveNotification:)
-                                  withObject:notification
-                               waitUntilDone:YES];
-
-// DDLogWarn(@"%@:%@ *-*-*  DB UPGRADE - end  *-*-*", THIS_FILE, THIS_METHOD);
+         [[self privateContext] performBlock:^{
+              NSError *privateError = nil;
+              [[self privateContext] save:&privateError];
+              if (privateError)
+              {
+                  DDLogError(@"Error saving private context: %@\n%@", [privateError localizedDescription], [privateError userInfo]);
+              }
+          }];
+     }];
 }
-
-
 
 - (void)cleanupPersistentStoreCoordinator
 {

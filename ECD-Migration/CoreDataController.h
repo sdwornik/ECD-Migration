@@ -12,7 +12,7 @@
 
 - (BOOL)isMigrationNeeded;
 - (BOOL)migrateWithOptions:options error:(NSError *__autoreleasing *)error;
-
+- (void)save;
 - (NSURL *)sourceStoreURL;
 - (void)cleanupPersistentStoreCoordinator;
 - (NSManagedObjectContext *)initializeCoreDataWithEncryption:(BOOL)encrypt;

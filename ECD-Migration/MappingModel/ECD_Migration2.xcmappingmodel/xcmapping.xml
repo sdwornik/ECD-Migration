@@ -52,13 +52,17 @@ CBMUGRoiJywtMjZVJG51bGzVCQoLDA0ODxAREllOU09wZXJhbmReTlNTZWxlY3Rvck5hbWVfEBBOU0V4
         <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z117"></relationship>
     </object>
     <object type="XDDEVENTITYMAPPING" id="z103">
+        <attribute name="userinfodata" type="binary">YnBsaXN0MDDUAQIDBAUGGhtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoKUH
+CBESE1UkbnVsbNMJCgsMDhBXTlMua2V5c1pOUy5vYmplY3RzViRjbGFzc6ENgAKhD4ADgARcbW9kZWxWZXJzaW9uUTLSFBUWF1okY2xhc3NuYW1lWCRjbGFzc2VzXxATTlNNdXRhYmxlRGljdGlvbmFyeaMWGBlcTlNEaWN0aW9uYXJ5WE5TT2JqZWN0XxAPTlNLZXllZEFyY2hpdmVy0RwdVHJvb3SAAQgRGiMtMjc9Q0pSXWRmaGpsbnt9go2WrLC9xtjb4AAAAAAAAAEBAAAAAAAAAB4AAAAAAAAAAAAAAAAAAADi
+</attribute>
+        <attribute name="migrationpolicyclassname" type="string">StudentToStudentMigrationPolicy</attribute>
         <attribute name="sourcename" type="string">StudentInformation</attribute>
         <attribute name="mappingtypename" type="string">Undefined</attribute>
-        <attribute name="mappingnumber" type="int16">2</attribute>
+        <attribute name="mappingnumber" type="int16">1</attribute>
         <attribute name="destinationname" type="string">StudentInformation</attribute>
         <attribute name="autogenerateexpression" type="bool">1</attribute>
         <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL" idrefs="z104"></relationship>
-        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z129 z130 z132 z113 z115 z131 z107 z118 z120 z111"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z111 z132 z131 z120 z129 z118 z130 z115 z107 z113"></relationship>
         <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z125"></relationship>
     </object>
     <object type="XDDEVMAPPINGMODEL" id="z104">
@@ -77,14 +81,18 @@ cBIAAYagrxEDHQAHAAgAFwAzADQANQBBAEIAQwBEAF8AYABhAGcAaAB0AIgAiQCKAIsAjACNAI4AjwCQ
         <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z106"></relationship>
     </object>
     <object type="XDDEVENTITYMAPPING" id="z106">
+        <attribute name="userinfodata" type="binary">YnBsaXN0MDDUAQIDBAUGGhtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoKUH
+CBESE1UkbnVsbNMJCgsMDhBXTlMua2V5c1pOUy5vYmplY3RzViRjbGFzc6ENgAKhD4ADgARcbW9kZWxWZXJzaW9uUTLSFBUWF1okY2xhc3NuYW1lWCRjbGFzc2VzXxATTlNNdXRhYmxlRGljdGlvbmFyeaMWGBlcTlNEaWN0aW9uYXJ5WE5TT2JqZWN0XxAPTlNLZXllZEFyY2hpdmVy0RwdVHJvb3SAAQgRGiMtMjc9Q0pSXWRmaGpsbnt9go2WrLC9xtjb4AAAAAAAAAEBAAAAAAAAAB4AAAAAAAAAAAAAAAAAAADi
+</attribute>
+        <attribute name="migrationpolicyclassname" type="string">CourseInformationMigrationPolicy</attribute>
         <attribute name="sourcename" type="string">CourseInformation</attribute>
         <attribute name="mappingtypename" type="string">Undefined</attribute>
         <attribute name="mappingnumber" type="int16">3</attribute>
         <attribute name="destinationname" type="string">CourseInformation</attribute>
         <attribute name="autogenerateexpression" type="bool">1</attribute>
         <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL" idrefs="z104"></relationship>
-        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z110 z105 z121 z109 z127 z128"></relationship>
-        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z108 z122"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z105 z128 z127 z109 z121 z110"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z122 z108"></relationship>
     </object>
     <object type="XDDEVATTRIBUTEMAPPING" id="z107">
         <attribute name="valueexpressiondata" type="binary">YnBsaXN0MDDUAQIDBAUGPD1YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoKwH
@@ -146,13 +154,17 @@ CBMUGRoiJywtMjZVJG51bGzVCQoLDA0ODxAREllOU09wZXJhbmReTlNTZWxlY3Rvck5hbWVfEBBOU0V4
         <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z117"></relationship>
     </object>
     <object type="XDDEVENTITYMAPPING" id="z117">
+        <attribute name="migrationpolicyclassname" type="string">ProfessorToProfessorMigrationPolicy</attribute>
+        <attribute name="userinfodata" type="binary">YnBsaXN0MDDUAQIDBAUGGhtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoKUH
+CBESE1UkbnVsbNMJCgsMDhBXTlMua2V5c1pOUy5vYmplY3RzViRjbGFzc6ENgAKhD4ADgARcbW9kZWxWZXJzaW9uUTLSFBUWF1okY2xhc3NuYW1lWCRjbGFzc2VzXxATTlNNdXRhYmxlRGljdGlvbmFyeaMWGBlcTlNEaWN0aW9uYXJ5WE5TT2JqZWN0XxAPTlNLZXllZEFyY2hpdmVy0RwdVHJvb3SAAQgRGiMtMjc9Q0pSXWRmaGpsbnt9go2WrLC9xtjb4AAAAAAAAAEBAAAAAAAAAB4AAAAAAAAAAAAAAAAAAADi
+</attribute>
         <attribute name="sourcename" type="string">ProfessorInformation</attribute>
         <attribute name="mappingtypename" type="string">Undefined</attribute>
-        <attribute name="mappingnumber" type="int16">1</attribute>
+        <attribute name="mappingnumber" type="int16">2</attribute>
         <attribute name="destinationname" type="string">ProfessorInformation</attribute>
         <attribute name="autogenerateexpression" type="bool">1</attribute>
         <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL" idrefs="z104"></relationship>
-        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z126 z119 z124 z116 z114 z102 z123"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z124 z114 z126 z102 z119 z123 z116"></relationship>
         <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z112"></relationship>
     </object>
     <object type="XDDEVATTRIBUTEMAPPING" id="z118">

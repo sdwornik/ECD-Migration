@@ -19,7 +19,7 @@
 // #import "CourseDetailInformation.h"
 
 // Comment this out if migrating to version 3
-#import "CourseInformation.h"
+ #import "CourseInformation.h"
 
 
 #define k_EyeColour @"eyeColour"
@@ -258,9 +258,10 @@
     [firstCourse addStudentsObject:secondStudent];
 
     NSError *error;
-    if (![context save:&error])
+    [[CoreDataController sharedInstance] save];
+    // if (![context save:&error])
     {
-        DDLogError(@"%@:%@ - unable to initialize core data information: %@", THIS_FILE, THIS_METHOD, [error localizedDescription]);
+        // DDLogError(@"%@:%@ - unable to initialize core data information: %@", THIS_FILE, THIS_METHOD, [error localizedDescription]);
     }
 
     DDLogInfo(@"%@:%@ - Ended", THIS_FILE, THIS_METHOD);
@@ -268,7 +269,7 @@
 
 
 
-#pragma mark verifyInitialData
+   #pragma mark verifyInitialData
 // Function Name: verifyInitialData
 // Dependency: Must be used with the initial data model ONLY.
 // Purpose: Verify initial data is correct.
@@ -820,7 +821,7 @@
     }
 
     NSFetchRequest *fetchFirstStudent = [[NSFetchRequest alloc] initWithEntityName:@"StudentInformation"];
-    NSPredicate *firstStudentPredicate = [NSPredicate predicateWithFormat:@"firstname = 'Good Billy'"];
+    NSPredicate *firstStudentPredicate = [NSPredicate predicateWithFormat:@"firstName = 'Good Billy'"];
     [fetchFirstStudent setPredicate:firstStudentPredicate];
     NSArray *firstStudentResult = [context executeFetchRequest:fetchFirstStudent error:&error];
     if (error)
@@ -942,7 +943,7 @@
     }
 
     NSFetchRequest *fetchSecondStudent = [[NSFetchRequest alloc] initWithEntityName:@"StudentInformation"];
-    NSPredicate *secondStudentPredicate = [NSPredicate predicateWithFormat:@"firstname = 'Bad Joel'"];
+    NSPredicate *secondStudentPredicate = [NSPredicate predicateWithFormat:@"firstName = 'Bad Joel'"];
     [fetchSecondStudent setPredicate:secondStudentPredicate];
     NSArray *secondStudentResult = [context executeFetchRequest:fetchSecondStudent error:&error];
     if (error)
@@ -1235,7 +1236,7 @@
     }
 
     NSFetchRequest *fetchFirstStudent = [[NSFetchRequest alloc] initWithEntityName:@"StudentInformation"];
-    NSPredicate *firstStudentPredicate = [NSPredicate predicateWithFormat:@"firstname = 'Good Billy'"];
+    NSPredicate *firstStudentPredicate = [NSPredicate predicateWithFormat:@"firstName = 'Good Billy'"];
     [fetchFirstStudent setPredicate:firstStudentPredicate];
     NSArray *firstStudentResult = [context executeFetchRequest:fetchFirstStudent error:&error];
     if (error)
@@ -1362,7 +1363,7 @@
     }
 
     NSFetchRequest *fetchSecondStudent = [[NSFetchRequest alloc] initWithEntityName:@"StudentInformation"];
-    NSPredicate *secondStudentPredicate = [NSPredicate predicateWithFormat:@"firstname = 'Bad Joel'"];
+    NSPredicate *secondStudentPredicate = [NSPredicate predicateWithFormat:@"firstName = 'Bad Joel'"];
     [fetchSecondStudent setPredicate:secondStudentPredicate];
     NSArray *secondStudentResult = [context executeFetchRequest:fetchSecondStudent error:&error];
     if (error)
