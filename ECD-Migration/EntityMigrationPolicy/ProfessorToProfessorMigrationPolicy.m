@@ -10,6 +10,16 @@
 
 @implementation ProfessorToProfessorMigrationPolicy
 
+- (BOOL)beginEntityMapping:(NSEntityMapping *)mapping
+                   manager:(NSMigrationManager *)manager
+                     error:(NSError *__autoreleasing *)error
+{
+    return YES;
+}
+
+
+
+/*Only attributes are manipulated in this stage*/
 - (BOOL)createDestinationInstancesForSourceInstance:(NSManagedObject *)sInstance
                                       entityMapping:(NSEntityMapping *)mapping
                                             manager:(NSMigrationManager *)manager
@@ -34,29 +44,37 @@
             }
         }
 
-        for (NSPropertyMapping *relationshipMap in mapping.relationshipMappings)
-        {
-        }
-        /*
-           NSMutableDictionary *authorLookup = [manager lookupWithKey:@"StudentInformation"];
-           // Check if we’ve already created this author
-           NSString *authorName = [sInstance valueForKey:@"author"];
-           NSManagedObject *author = [authorLookup valueForKey:authorName];
-           if (!author)
-           {
-           // Create the author
-           // Populate lookup for reuse
-           [authorLookup setValue:author forKey:authorName];
-           }
+        [manager associateSourceInstance:sInstance
+                 withDestinationInstance:destinationInstance
+                        forEntityMapping:mapping];
 
-           [destinationInstance performSelector:@selector(addCoursesObject:) withObject:author];
-
-           [manager associateSourceInstance:sInstance
-           withDestinationInstance:destinationInstance
-           forEntityMapping:mapping];
-           return YES;*/
+        return YES;
     }
+    else
+    {
+        return [super createDestinationInstancesForSourceInstance:sInstance
+                                                    entityMapping:mapping
+                                                          manager:manager
+                                                            error:error];
+    }
+}
 
+
+
+- (BOOL)createRelationshipsForDestinationInstance:(NSManagedObject *)dInstance
+                                    entityMapping:(NSEntityMapping *)mapping
+                                          manager:(NSMigrationManager *)manager
+                                            error:(NSError *__autoreleasing *)error
+{
+    return YES;
+}
+
+
+
+- (BOOL)performCustomValidationForEntityMapping:(NSEntityMapping *)mapping
+                                        manager:(NSMigrationManager *)manager
+                                          error:(NSError *__autoreleasing *)error
+{
     return YES;
 }
 

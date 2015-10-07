@@ -7,9 +7,10 @@
 //
 
 #import "StudentToStudentMigrationPolicy.h"
-#import "MigrationManager+ClassFunctions.h"
 #import "StudentInformation.h"
 
+/*http://9elements.com/io/index.php/customizing-core-data-migrations/*/
+/*http://www.pumpmybicep.com/2014/09/17/writing-a-core-data-custom-migration/*/
 @implementation StudentToStudentMigrationPolicy
 
 - (BOOL)beginEntityMapping:(NSEntityMapping *)mapping
