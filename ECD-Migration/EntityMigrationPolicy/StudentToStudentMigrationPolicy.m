@@ -28,8 +28,34 @@
                                             manager:(NSMigrationManager *)manager
                                               error:(NSError *__autoreleasing *)error
 {
+    /*For now, modelVerion 2 and 3 have the exact same code. Later on, I will probably need to start adding specific things as needs arise in different verisons.*/
     NSNumber *modelVersion = [mapping.userInfo valueForKey:@"modelVersion"];
-    if (true)
+
+    if (modelVersion.integerValue == 2)
+    {
+        NSMutableArray *sourceKeys = [sInstance.entity.attributesByName.allKeys mutableCopy];
+        NSDictionary *sourceValues = [sInstance dictionaryWithValuesForKeys:sourceKeys];
+        NSManagedObject *destinationInstance = [NSEntityDescription insertNewObjectForEntityForName:mapping.destinationEntityName
+                                                                             inManagedObjectContext:manager.destinationContext];
+
+        // attribute migration
+        for (NSPropertyMapping *attributeMap in mapping.attributeMappings)
+        {
+            id value = [sourceValues valueForKey:[attributeMap.valueExpression.arguments.firstObject constantValue]];
+            // Avoid NULL values
+            if (value && ![value isEqual:[NSNull null]])
+            {
+                [destinationInstance setValue:value forKey:attributeMap.name];
+            }
+        }
+
+        [manager associateSourceInstance:sInstance
+                 withDestinationInstance:destinationInstance
+                        forEntityMapping:mapping];
+
+        return YES;
+    }
+    else if (modelVersion.integerValue == 3)
     {
         NSMutableArray *sourceKeys = [sInstance.entity.attributesByName.allKeys mutableCopy];
         NSDictionary *sourceValues = [sInstance dictionaryWithValuesForKeys:sourceKeys];

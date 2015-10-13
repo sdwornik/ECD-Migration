@@ -91,34 +91,34 @@
 
     // Feel free to re-enable this block of code, and commenting out the ECD part to test with stock SQLite for progressive migration.
     // STOCK SQLITE COREDATA STARTS HERE
-    /*
-       NSURL *storeUrl = [NSURL fileURLWithPath:[[gkAPPDELEGATE applicationDocumentsDirectory]
+
+    NSURL *storeUrl = [NSURL fileURLWithPath:[[gkAPPDELEGATE applicationDocumentsDirectory]
                                               stringByAppendingPathComponent:kSQLStoreName]];
 
-       options = @{NSPersistentStoreFileProtectionKey: NSFileProtectionComplete,
+    options = @{NSPersistentStoreFileProtectionKey: NSFileProtectionComplete,
                 NSMigratePersistentStoresAutomaticallyOption:@NO,
                 NSInferMappingModelAutomaticallyOption:@NO};
 
 
-       _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
                                    initWithManagedObjectModel:[self managedObjectModel]];
 
-       if ([self isMigrationNeeded])
-       {
+    if ([self isMigrationNeeded])
+    {
         [self migrateWithOptions:options error:nil];
-       }
+    }
 
-       [_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+    [_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
                                               configuration:nil
                                                         URL:storeUrl
                                                     options:options
-                                                      error:&error];*/
+                                                      error:&error];
 
     // STOCK SQLITE COREDATA ENDS HERE
 
     // ECD STARTS HERE
 
-
+/*
     if (self.shouldEncryptCoreData)
     {
         options = @{NSPersistentStoreFileProtectionKey: NSFileProtectionComplete,
@@ -143,6 +143,7 @@
     }
 
     _persistentStoreCoordinator = [EncryptedStore makeStoreWithOptions:options managedObjectModel:[self managedObjectModel] error:&error];
+ */
     // ECD ENDS HERE
 
 
@@ -197,8 +198,8 @@
 
 - (NSString *)sourceStoreType
 {
-    // return NSSQLiteStoreType;
-    return EncryptedStoreType;
+    return NSSQLiteStoreType;
+    // return EncryptedStoreType;
 }
 
 
