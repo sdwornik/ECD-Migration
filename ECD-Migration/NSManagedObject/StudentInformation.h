@@ -2,8 +2,8 @@
 //  StudentInformation.h
 //  ECD-Migration
 //
-//  Created by Jasper Chan on 2015-09-10.
-//  Copyright (c) 2015 .. All rights reserved.
+//  Created by Jasper Chan on 2015-10-16.
+//  Copyright © 2015 .. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,26 +11,14 @@
 
 @class CourseInformation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface StudentInformation : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * avgGrade;
-@property (nonatomic, retain) NSData * classifieddata;
-@property (nonatomic, retain) NSDate * creationdate;
-@property (nonatomic, retain) NSNumber * currentAge;
-@property (nonatomic, retain) NSString * firstname;
-@property (nonatomic, retain) NSNumber * isOnProbation;
-@property (nonatomic, retain) NSDate * lastmodifieddate;
-@property (nonatomic, retain) NSString * lastname;
-@property (nonatomic, retain) NSDecimalNumber * tutitionFee;
-@property (nonatomic, retain) NSNumber * year;
-@property (nonatomic, retain) NSSet *courses;
-@end
-
-@interface StudentInformation (CoreDataGeneratedAccessors)
-
-- (void)addCoursesObject:(CourseInformation *)value;
-- (void)removeCoursesObject:(CourseInformation *)value;
-- (void)addCourses:(NSSet *)values;
-- (void)removeCourses:(NSSet *)values;
+// Insert code here to declare functionality of your managed object subclass
 
 @end
+
+NS_ASSUME_NONNULL_END
+
+#import "StudentInformation+CoreDataProperties.h"

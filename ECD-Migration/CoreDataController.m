@@ -91,13 +91,14 @@
 
     // Feel free to re-enable this block of code, and commenting out the ECD part to test with stock SQLite for progressive migration.
     // STOCK SQLITE COREDATA STARTS HERE
-
+/*
     NSURL *storeUrl = [NSURL fileURLWithPath:[[gkAPPDELEGATE applicationDocumentsDirectory]
                                               stringByAppendingPathComponent:kSQLStoreName]];
 
     options = @{NSPersistentStoreFileProtectionKey: NSFileProtectionComplete,
                 NSMigratePersistentStoresAutomaticallyOption:@NO,
-                NSInferMappingModelAutomaticallyOption:@NO};
+                NSInferMappingModelAutomaticallyOption:@NO,
+                NSSQLitePragmasOption: @{@"journal_mode": @"DELETE"}};
 
 
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
@@ -108,22 +109,23 @@
         [self migrateWithOptions:options error:nil];
     }
 
-    [_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+    [_persistentStoreCoordinator addPersistentStoreWithType:[self sourceStoreType]
                                               configuration:nil
                                                         URL:storeUrl
                                                     options:options
                                                       error:&error];
 
+ */
     // STOCK SQLITE COREDATA ENDS HERE
 
     // ECD STARTS HERE
 
-/*
+
     if (self.shouldEncryptCoreData)
     {
         options = @{NSPersistentStoreFileProtectionKey: NSFileProtectionComplete,
-                    // NSMigratePersistentStoresAutomaticallyOption:@NO,
-                    // NSInferMappingModelAutomaticallyOption:@NO,
+                    NSMigratePersistentStoresAutomaticallyOption:@NO,
+                    NSInferMappingModelAutomaticallyOption:@NO,
                     NSSQLitePragmasOption: @{@"journal_mode": @"DELETE"},
                     EncryptedStoreDatabaseLocation:[self sourceStoreURL],
                     EncryptedStorePassphraseKey:@"Some Random Key String"};
@@ -143,7 +145,7 @@
     }
 
     _persistentStoreCoordinator = [EncryptedStore makeStoreWithOptions:options managedObjectModel:[self managedObjectModel] error:&error];
- */
+
     // ECD ENDS HERE
 
 
@@ -198,8 +200,8 @@
 
 - (NSString *)sourceStoreType
 {
-    return NSSQLiteStoreType;
-    // return EncryptedStoreType;
+    // return NSSQLiteStoreType;
+    return EncryptedStoreType;
 }
 
 
@@ -269,6 +271,16 @@
     if (OK)
     {
         DDLogInfo(@"%@:%@ - Migration Complete!", THIS_FILE, THIS_METHOD);
+        NSString *oldStoreURL = [self sourceStoreURL].absoluteString;
+        NSString *destinationStoreString = [[[oldStoreURL stringByDeletingPathExtension] stringByAppendingString:@"_T"] stringByAppendingPathExtension:@"sqlite"];
+        NSURL *destinationStoreURL = [NSURL URLWithString:[destinationStoreString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        /*
+           [[NSFileManager defaultManager] removeItemAtURL:[self sourceStoreURL] error:nil];
+           NSError *error;
+           if (![[NSFileManager defaultManager] moveItemAtURL:destinationStoreURL toURL:[self sourceStoreURL] error:&error])
+           {
+            DDLogError(@"%@:%@ - Error = %@", THIS_FILE, THIS_METHOD, error.localizedDescription);
+           }*/
     }
 
     // Mark it as invalid

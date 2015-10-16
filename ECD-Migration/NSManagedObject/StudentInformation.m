@@ -1,27 +1,16 @@
 //
-//  StudentInformation.m
-//  ECD-Migration
+// StudentInformation.m
+// ECD-Migration
 //
-//  Created by Jasper Chan on 2015-09-10.
-//  Copyright (c) 2015 .. All rights reserved.
+// Created by Jasper Chan on 2015-10-16.
+// Copyright © 2015 .. All rights reserved.
 //
 
 #import "StudentInformation.h"
 #import "CourseInformation.h"
 
-
 @implementation StudentInformation
 
-@dynamic avgGrade;
-@dynamic classifieddata;
-@dynamic creationdate;
-@dynamic currentAge;
-@dynamic firstname;
-@dynamic isOnProbation;
-@dynamic lastmodifieddate;
-@dynamic lastname;
-@dynamic tutitionFee;
-@dynamic year;
-@dynamic courses;
+// Insert code here to add functionality to your managed object subclass
 
 @end

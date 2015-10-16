@@ -93,7 +93,7 @@
             {
                 // Comment out initializeDefaultData and verifyInitialData when you are not initializing the Core Data with a version 1 data model.
                 [self initializeDefaultData];
-                [self verifyInitialData];
+                // [self verifyInitialData];
 
 
                 self.encryptCoreDataSwitch.enabled = NO;
@@ -273,8 +273,8 @@
 // Function Name: verifyInitialData
 // Dependency: Must be used with the initial data model ONLY.
 // Purpose: Verify initial data is correct.
-- (void)verifyInitialData
-{
+/*- (void)verifyInitialData
+   {
     DDLogInfo(@"%@:%@ - Started", THIS_FILE, THIS_METHOD);
     NSDecimalNumberHandler *roundCurrency = [NSDecimalNumberHandler
                                              decimalNumberHandlerWithRoundingMode:NSRoundPlain
@@ -660,7 +660,7 @@
     }
 
     DDLogInfo(@"%@:%@ - Ended", THIS_FILE, THIS_METHOD);
-}
+   }*/
 
 
 

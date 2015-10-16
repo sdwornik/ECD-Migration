@@ -95,7 +95,31 @@
                                           manager:(NSMigrationManager *)manager
                                             error:(NSError *__autoreleasing *)error
 {
-    return YES;
+    NSNumber *modelVersion = [mapping.userInfo valueForKey:@"modelVersion"];
+    // NSArray *sourceObject = [manager sourceInstancesForEntityMappingNamed:mapping.name destinationInstances:@[dInstance]];
+    if (modelVersion.integerValue == 2)
+    {
+        return [super createRelationshipsForDestinationInstance:dInstance
+                                                  entityMapping:mapping
+                                                        manager:manager
+                                                          error:error];
+        ;
+    }
+    else if (modelVersion.integerValue == 3)
+    {
+        return [super createRelationshipsForDestinationInstance:dInstance
+                                                  entityMapping:mapping
+                                                        manager:manager
+                                                          error:error];
+        ;
+    }
+    else
+    {
+        return [super createRelationshipsForDestinationInstance:dInstance
+                                                  entityMapping:mapping
+                                                        manager:manager
+                                                          error:error];
+    }
 }
 
 

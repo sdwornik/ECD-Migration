@@ -2,15 +2,28 @@
 
 @implementation CoreDataMigrationController
 
+/*http://stackoverflow.com/questions/14974336/cant-add-destination-store-core-data-migration-error*/
 - (BOOL)progressivelyMigrateURL:(NSURL *)sourceStoreURL
                          ofType:(NSString *)type
                         toModel:(NSManagedObjectModel *)finalModel
                         options:(NSDictionary *)options
                           error:(NSError **)error
 {
-    NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:type
-                                                                                              URL:sourceStoreURL
-                                                                                            error:error];
+    NSURL *destinationStoreURL = [self destinationStoreURLWithSourceStoreURL:sourceStoreURL];
+    NSDictionary *sourceMetadata;
+    if ([destinationStoreURL checkResourceIsReachableAndReturnError:nil] == NO)
+    {
+        sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:type
+                                                                                    URL:sourceStoreURL
+                                                                                  error:error];
+    }
+    else
+    {
+        sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:type
+                                                                                    URL:destinationStoreURL
+                                                                                  error:error];
+    }
+
     if (!sourceMetadata)
     {
         return NO;
@@ -48,7 +61,6 @@
         }
     }
 
-    NSURL *destinationStoreURL = [self destinationStoreURLWithSourceStoreURL:sourceStoreURL];
     NSMigrationManager *manager = [[NSMigrationManager alloc] initWithSourceModel:sourceModel
                                                                  destinationModel:destinationModel];
     [manager addObserver:self
@@ -76,7 +88,7 @@
     }
 
     // We may not be at the "current" model yet, so recurse
-    return [self progressivelyMigrateURL:sourceStoreURL
+    return [self progressivelyMigrateURL:destinationStoreURL
                                   ofType:type
                                  toModel:finalModel
                                  options:options
@@ -178,7 +190,7 @@
     NSString *storeExtension = sourceStoreURL.path.pathExtension;
     NSString *storePath = sourceStoreURL.path.stringByDeletingPathExtension;
     // Build a path to write the new store
-    storePath = [NSString stringWithFormat:@"%@.%@", storePath, storeExtension];
+    storePath = [NSString stringWithFormat:@"%@_T.%@", storePath, storeExtension];
     return [NSURL fileURLWithPath:storePath];
 }
 
