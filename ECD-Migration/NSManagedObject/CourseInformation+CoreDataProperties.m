@@ -2,7 +2,7 @@
 //  CourseInformation+CoreDataProperties.m
 //  ECD-Migration
 //
-//  Created by Jasper Chan on 2015-10-16.
+//  Created by Jasper Chan on 2015-11-27.
 //  Copyright © 2015 .. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
