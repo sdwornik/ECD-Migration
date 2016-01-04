@@ -92,7 +92,7 @@
             @try
             {
                 // Comment out initializeDefaultData and verifyInitialData when you are not initializing the Core Data with a version 1 data model.
-                [self initializeDefaultData];
+                // [self initializeDefaultData];
                 // [self verifyInitialData];
 
 
@@ -137,7 +137,10 @@
 
     self.startMigrationBtn.enabled = NO;
 
-    [[CoreDataController sharedInstance] managedObjectContext];
+    // Comment this out if you don't want to migrate with encrypted database
+    [self.encryptCoreDataSwitch setOn:YES];
+
+    [[CoreDataController sharedInstance] initializeCoreDataWithEncryption:self.encryptCoreDataSwitch.isOn];
 
     // Comment this out when not checking your inital model data is correct
     // [self verifyInitialData];
@@ -156,8 +159,8 @@
 // Function name: initializeDefaultData
 // Dependency: Must be used with the initial data model ONLY.
 // Purpose: Insert some initial data in preparation for migration tests.
-- (void)initializeDefaultData
-{
+/*- (void)initializeDefaultData
+   {
     DDLogInfo(@"%@:%@ - Started", THIS_FILE, THIS_METHOD);
 
     NSDecimalNumberHandler *roundCurrency = [NSDecimalNumberHandler
@@ -265,7 +268,7 @@
     }
 
     DDLogInfo(@"%@:%@ - Ended", THIS_FILE, THIS_METHOD);
-}
+   }*/
 
 
 

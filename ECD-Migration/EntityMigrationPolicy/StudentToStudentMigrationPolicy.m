@@ -96,14 +96,13 @@
                                             error:(NSError *__autoreleasing *)error
 {
     NSNumber *modelVersion = [mapping.userInfo valueForKey:@"modelVersion"];
-    // NSArray *sourceObject = [manager sourceInstancesForEntityMappingNamed:mapping.name destinationInstances:@[dInstance]];
+    NSArray *sourceObject = [manager sourceInstancesForEntityMappingNamed:mapping.name destinationInstances:@[dInstance]];
     if (modelVersion.integerValue == 2)
     {
         return [super createRelationshipsForDestinationInstance:dInstance
                                                   entityMapping:mapping
                                                         manager:manager
                                                           error:error];
-        ;
     }
     else if (modelVersion.integerValue == 3)
     {
@@ -111,7 +110,6 @@
                                                   entityMapping:mapping
                                                         manager:manager
                                                           error:error];
-        ;
     }
     else
     {
